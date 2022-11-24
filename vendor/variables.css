@@ -1,0 +1,21 @@
+:root {
+  /*
+  * Переменные цвета проекта
+  */
+  --white: #ffffff;
+  --gray: #545454;
+  --black: #000000;
+
+  /*
+  * Анимации
+  */
+  --linkTransition: 300ms;
+
+  /*
+  * Размеры экранов
+  */
+  --phoneDevice: 320px;
+  --tabletDevice: 768px;
+  --laptopDevice: 1024px;
+  --desktopDevice: 1280px;
+}
