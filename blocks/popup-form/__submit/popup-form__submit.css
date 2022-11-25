@@ -13,8 +13,8 @@
   font-size: 18px;
   line-height: 22px;
   text-align: center;
-  background-color: var(--black);
   color: var(--white);
+  background-color: var(--black);
   cursor: pointer;
   transition: all var(--standardTransition);
 }

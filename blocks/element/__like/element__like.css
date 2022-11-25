@@ -1,16 +1,16 @@
-.elements__like {
-  background-image: url(../../../images/icons/heart.svg);
+.element__like {
   width: 22px;
   height: 19px;
+  background-image: url(../../../images/icons/heart.svg);
   transition: all var(--standardTransition);
   cursor: pointer;
 }
 
-.elements__like:hover {
+.element__like:hover {
   opacity: 0.5;
 }
 
-.elements__like:active {
+.element__like:active {
   opacity: unset;
   background-image: url(../../../images/icons/heart_active.svg);
 }

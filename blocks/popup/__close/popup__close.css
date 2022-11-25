@@ -2,11 +2,11 @@
   position: absolute;
   right: -41px;
   top: -41px;
-  background-color: transparent;
   border: none;
-  cursor: pointer;
   color: var(--white);
+  background-color: transparent;
   transition: all var(--standardTransition);
+  cursor: pointer;
 }
 
 .popup__close:hover {

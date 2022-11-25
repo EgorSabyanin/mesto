@@ -1,6 +1,6 @@
 .element__text {
-  text-overflow: ellipsis;
   overflow: hidden;
   width: calc(100% - 30px);
+  text-overflow: ellipsis;
   white-space: nowrap;
 }

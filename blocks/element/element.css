@@ -1,8 +1,8 @@
-.elements__element {
+.element {
+  display: flex;
+  flex-direction: column;
   margin: 0;
   padding: 0;
-  display: flex;
   border-radius: 10px;
-  flex-direction: column;
   background-color: var(--white);
 }
