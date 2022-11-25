@@ -1,4 +1,7 @@
 .elements__like {
+  background-image: url(../../../images/icons/heart.svg);
+  width: 22px;
+  height: 19px;
   transition: all var(--standardTransition);
   cursor: pointer;
 }
@@ -8,5 +11,6 @@
 }
 
 .elements__like:active {
-  background-color: var(--black);
+  opacity: unset;
+  background-image: url(../../../images/icons/heart_active.svg);
 }
