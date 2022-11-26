@@ -1,6 +1,8 @@
 .element__like {
+  border: none;
   width: 22px;
   height: 19px;
+  background-color: transparent;
   background-image: url(../../../images/icons/heart.svg);
   transition: all var(--standardTransition);
   cursor: pointer;

@@ -21,7 +21,9 @@
 
 @media screen and (min-width: 320px) {
   .profile__edit-button {
-    margin-left: 10px;
+    position: absolute;
+    right: -28px;
+    top: 9px;
     height: 18px;
     width: 18px;
   }
@@ -29,6 +31,9 @@
 
 @media screen and (min-width: 880px) {
   .profile__edit-button {
+    position: unset;
+    right: unset;
+    top: unset;
     margin-left: 18px;
     height: 24px;
     width: 24px;
