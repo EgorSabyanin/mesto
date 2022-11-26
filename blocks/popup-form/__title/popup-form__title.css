@@ -4,7 +4,19 @@
   font-family: "Inter";
   font-style: normal;
   font-weight: 900;
-  font-size: 24px;
-  line-height: 29px;
   color: var(--black);
+}
+
+@media screen and (min-width: 320px) {
+  .popup-form__title {
+    font-size: 18px;
+    line-height: 22px;
+  }
+}
+
+@media screen and (min-width: 880px) {
+  .popup-form__title {
+    font-size: 24px;
+    line-height: 29px;
+  }
 }
