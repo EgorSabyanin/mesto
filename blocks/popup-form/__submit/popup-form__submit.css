@@ -5,11 +5,9 @@
   border: none;
   border-radius: 2px;
   padding: 14px 0;
-  font-family: "Inter";
+  font-family: "Inter", "Arial", sans-serif;
   font-style: normal;
   font-weight: 400;
-  font-size: 18px;
-  line-height: 22px;
   text-align: center;
   color: var(--white);
   background-color: var(--black);
@@ -23,12 +21,16 @@
 
 @media screen and (min-width: 320px) {
   .popup-form__submit {
+    font-size: 14px;
+    line-height: 17px;
     margin-top: 45px;
   }
 }
 
 @media screen and (min-width: 880px) {
   .popup-form__submit {
+    font-size: 18px;
+    line-height: 22px;
     margin-top: 48px;
   }
 }

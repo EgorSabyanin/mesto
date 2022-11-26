@@ -23,56 +23,54 @@
           <div class="profile__content">
             <div class="profile__edit">
               <h1 class="profile__name">Жак-Ив Кусто</h1>
-              <button class="profile__edit-button"></button>
+              <button class="profile__edit-button" type="button"></button>
             </div>
             <p class="profile__job">Исследователь океана</p>
           </div>
         </div>
-        <button class="profile__add-button">
-          <img src="./images/icons/plus.svg" alt="Добавить">
-        </button>
+        <button class="profile__add-button" type="button"></button>
       </section>
       <section class="elements">
         <figure class="element">
           <img class="element__image" src="./images/places/australia.jpg" alt="Сидней Австралия" loading="lazy">
           <figcaption class="element__caption">
             <p class="element__text">Австралия</p>
-            <span class="element__like"></span>
+            <button type="button" class="element__like"></button>
           </figcaption>
         </figure>
         <figure class="element">
           <img class="element__image" src="./images/places/japan.jpg" alt="Япония" loading="lazy">
           <figcaption class="element__caption">
             <p class="element__text">Япония</p>
-            <span class="element__like"></span>
+            <button type="button" class="element__like"></button>
           </figcaption>
         </figure>
         <figure class="element">
           <img class="element__image" src="./images/places/italy.jpg" alt="Италия" loading="lazy">
           <figcaption class="element__caption">
             <p class="element__text">Италия</p>
-            <span class="element__like"></span>
+            <button type="button" class="element__like"></button>
           </figcaption>
         </figure>
         <figure class="element">
           <img class="element__image" src="./images/places/russia.jpg" alt="Россия" loading="lazy">
           <figcaption class="element__caption">
             <p class="element__text">Россия</p>
-            <span class="element__like"></span>
+            <button type="button" class="element__like"></button>
           </figcaption>
         </figure>
         <figure class="element">
           <img class="element__image" src="./images/places/sweden.jpg" alt="Швеция" loading="lazy">
           <figcaption class="element__caption">
             <p class="element__text">Швеция</p>
-            <span class="element__like"></span>
+            <button type="button" class="element__like"></button>
           </figcaption>
         </figure>
         <figure class="element">
           <img class="element__image" src="./images/places/belgium.jpg" alt="Бельгия" loading="lazy">
           <figcaption class="element__caption">
             <p class="element__text">Бельгия</p>
-            <span class="element__like"></span>
+            <button type="button" class="element__like"></button>
           </figcaption>
         </figure>
       </section>
@@ -83,15 +81,15 @@
   </div>
   <div class="popup">
     <div class="popup__container">
-      <form class="popup-form" action="./" method="POST">
+      <form class="popup-form" action="./" method="POST" name="profileEdit">
         <h2 class="popup-form__title">Редактировать профиль</h2>
-        <input class="popup-form__input" type="text" name="name">
-        <input class="popup-form__input" type="text" name="job">
+        <fieldset class="popup-form__fieldset">
+          <input class="popup-form__input popup-form__input_el_name" type="text" name="name">
+          <input class="popup-form__input popup-form__input_el_job" type="text" name="job">
+        </fieldset>
         <button class="popup-form__submit" type="submit">Сохранить</button>
       </form>
-
-      <button class="popup__close">
-        <img src="./images/icons/close.svg" alt="Закрыть окно">
+      <button class="popup__close" type="button">
       </button>
     </div>
   </div>
