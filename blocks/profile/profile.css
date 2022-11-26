@@ -1,6 +1,24 @@
 .profile {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 40px;
+}
+
+@media screen and (min-width: 320px) {
+  .profile {
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+    margin-top: 42px;
+    margin-left: 19px;
+    margin-right: 19px;
+  }
+}
+
+@media screen and (min-width: 880px) {
+  .profile {
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 40px;
+    margin-left: unset;
+    margin-right: unset;
+  }
 }
