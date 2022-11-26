@@ -1,8 +1,22 @@
 .footer__copyright {
+  margin: unset;
+  padding: unset;
   font-family: "Inter";
   font-style: normal;
   font-weight: 400;
-  font-size: 18px;
-  line-height: 22px;
   color: var(--gray);
+}
+
+@media screen and (min-width: 320px) {
+  .footer {
+    font-size: 14px;
+    line-height: 17px;
+  }
+}
+
+@media screen and (min-width: 880px) {
+  .footer {
+    font-size: 18px;
+    line-height: 22px;
+  }
 }
