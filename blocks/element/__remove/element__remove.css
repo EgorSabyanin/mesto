@@ -7,4 +7,9 @@
   height: 19px;
   background: url(../../../images/icons/Trash.svg);
   cursor: pointer;
+  transition: all var(--standardTransition);
+}
+
+.element__remove:hover {
+  opacity: 0.6;
 }
