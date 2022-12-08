@@ -83,7 +83,7 @@ function createCards(container, template, name, link) {
   card.querySelector(".element__image").alt = name;
   card.querySelector(".element__text").textContent = name;
 
-  container.append(card);
+  container.prepend(card);
 }
 
 /**
@@ -99,12 +99,62 @@ cardLikes.forEach((cardLike) => {
 });
 
 /**
+ * * Реализация создания карточки
+ */
+
+const createCardButton = document.querySelector(".profile__add-button");
+const closeCreateCardButton = document.querySelector("#closeCreateCard");
+
+const imageName = document.querySelector(".popup-form__input_el_name-of-image");
+const imageLink = document.querySelector(".popup-form__input_el_link-of-image");
+
+const сreateCardModal = document.querySelector("#createCardModal");
+
+const createCardModalForm = document.querySelector("#createCardModalForm");
+
+createCardModalForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  let card = {};
+  card.name = imageName.value;
+  card.link = imageLink.value;
+  const cardTemplate = document.querySelector("#element").content;
+  createCards(cardsContainer, cardTemplate, card.name, card.link);
+  сreateCardModal.classList.remove("popup_opened");
+  const cardLike = document.querySelector(".element__like");
+
+  cardLike.addEventListener("click", (event) => {
+    cardLike.classList.toggle("element__like_active");
+  });
+
+  const cardRemove = document.querySelector(".element__remove");
+
+  cardRemove.addEventListener("click", (event) => {
+    event.preventDefault();
+    event.target.parentElement.remove();
+  });
+});
+
+createCardButton.addEventListener("click", function (event) {
+  event.preventDefault();
+  imageName.value = "";
+  imageLink.value = "";
+  сreateCardModal.classList.add("popup_opened");
+});
+
+closeCreateCardButton.addEventListener("click", function (event) {
+  event.preventDefault();
+  imageName.value = "";
+  imageLink.value = "";
+  сreateCardModal.classList.remove("popup_opened");
+});
+
+/**
  * * Реализация удаления карточки
  */
 
-const cardRemoves = document.querySelectorAll(".element__remove");
+const cardsRemove = document.querySelectorAll(".element__remove");
 
-cardRemoves.forEach((cardRemove) => {
+cardsRemove.forEach((cardRemove) => {
   cardRemove.addEventListener("click", (event) => {
     event.preventDefault();
     event.target.parentElement.remove();

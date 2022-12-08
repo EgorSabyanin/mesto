@@ -37,7 +37,7 @@
       <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
     </footer>
   </div>
-  <div class="popup">
+  <div id="editProfileModal" class="popup">
     <div class="popup__container">
       <form class="popup-form" action="./" method="POST" name="profileEdit">
         <h2 class="popup-form__title">Редактировать профиль</h2>
@@ -48,6 +48,30 @@
         <button class="popup-form__submit" type="submit">Сохранить</button>
       </form>
       <button class="popup__close" type="button">
+      </button>
+    </div>
+  </div>
+  <div id="createCardModal" class="popup">
+    <div class="popup__container">
+      <form id="createCardModalForm" class="popup-form" action="./" method="POST" name="createCard">
+        <h2 class="popup-form__title">Новое место</h2>
+        <fieldset class="popup-form__fieldset">
+          <input class="popup-form__input popup-form__input_el_name-of-image" type="text" name="nameOfImage"
+            placeholder="Название">
+          <input class="popup-form__input popup-form__input_el_link-of-image" type="text" name="linkOfImage"
+            placeholder="Ссылка на картинку">
+        </fieldset>
+        <button class="popup-form__submit" type="submit">Создать</button>
+      </form>
+      <button id="closeCreateCard" class="popup__close" type="button">
+      </button>
+    </div>
+  </div>
+  <div id="showCardModal" class="popup">
+    <div class="popup__container">
+      <img class="popup__image" src="" alt="">
+      <p class="popup__title"></p>
+      <button id="closeCreateCard" class="popup__close" type="button">
       </button>
     </div>
   </div>
