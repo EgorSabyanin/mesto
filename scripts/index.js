@@ -132,6 +132,15 @@ createCardModalForm.addEventListener("submit", (event) => {
     event.preventDefault();
     event.target.parentElement.remove();
   });
+
+  const imageOfCard = document.querySelector(".element__image");
+
+  imageOfCard.addEventListener("click", (event) => {
+    event.preventDefault();
+    showImage.src = event.target.src;
+    showImageTitle.textContent = event.target.alt;
+    showCardModal.classList.add("popup_opened");
+  });
 });
 
 createCardButton.addEventListener("click", function (event) {
@@ -159,4 +168,30 @@ cardsRemove.forEach((cardRemove) => {
     event.preventDefault();
     event.target.parentElement.remove();
   });
+});
+
+/**
+ * * Реализация модального окна показа изображения
+ */
+
+const showCardModal = document.querySelector("#showCardModal");
+const closeShowCard = document.querySelector("#closeShowCard");
+
+const imagesOfCards = document.querySelectorAll(".element__image");
+
+const showImage = document.querySelector(".popup__image");
+const showImageTitle = document.querySelector(".popup__title");
+
+imagesOfCards.forEach((imageOfCard) => {
+  imageOfCard.addEventListener("click", (event) => {
+    event.preventDefault();
+    showImage.src = event.target.src;
+    showImageTitle.textContent = event.target.alt;
+    showCardModal.classList.add("popup_opened");
+  });
+});
+
+closeShowCard.addEventListener("click", (event) => {
+  event.preventDefault();
+  showCardModal.classList.remove("popup_opened");
 });
