@@ -85,6 +85,7 @@ function createCards(container, template, name, link) {
 
   container.append(card);
 }
+
 /**
  * * Реализация кнопки лайка на карточках
  */
@@ -94,5 +95,18 @@ const cardLikes = document.querySelectorAll(".element__like");
 cardLikes.forEach((cardLike) => {
   cardLike.addEventListener("click", (event) => {
     cardLike.classList.toggle("element__like_active");
+  });
+});
+
+/**
+ * * Реализация удаления карточки
+ */
+
+const cardRemoves = document.querySelectorAll(".element__remove");
+
+cardRemoves.forEach((cardRemove) => {
+  cardRemove.addEventListener("click", (event) => {
+    event.preventDefault();
+    event.target.parentElement.remove();
   });
 });
