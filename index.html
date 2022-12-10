@@ -5,7 +5,12 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <link rel="stylesheet" href="./pages/index.css">
+
+  <script src="./scripts/cardsData.js" defer></script>
+  <script src="./scripts/index.js" defer></script>
+
   <title>Mesto Russia</title>
 </head>
 
@@ -23,12 +28,12 @@
           <div class="profile__content">
             <div class="profile__edit">
               <h1 class="profile__name">Жак-Ив Кусто</h1>
-              <button class="profile__edit-button" type="button"></button>
+              <button class="profile__edit-button" type="button" aria-label="Редактировать профиль"></button>
             </div>
-            <p class="profile__job">Исследователь океана</p>
+            <p class="profile__description">Исследователь океана</p>
           </div>
         </div>
-        <button class="profile__add-button" type="button"></button>
+        <button class="profile__add-button" type="button" aria-label="Создать карточку"></button>
       </section>
       <section class="elements">
       </section>
@@ -37,41 +42,42 @@
       <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
     </footer>
   </div>
-  <div id="editProfileModal" class="popup">
+  <div id="editProfilePopup" class="popup">
     <div class="popup__container">
       <form class="popup-form" action="./" method="POST" name="profileEdit">
         <h2 class="popup-form__title">Редактировать профиль</h2>
         <fieldset class="popup-form__fieldset">
-          <input class="popup-form__input popup-form__input_el_name" type="text" name="name">
-          <input class="popup-form__input popup-form__input_el_job" type="text" name="job">
+          <input class="popup-form__input popup-form__input_el_name" type="text" name="name" placeholder="Имя" required>
+          <input class="popup-form__input popup-form__input_el_description" type="text" name="description"
+            placeholder="О себе" required>
         </fieldset>
         <button class="popup-form__submit" type="submit">Сохранить</button>
       </form>
-      <button class="popup__close" type="button">
+      <button class="popup__close" type="button" aria-label="Закрыть форму редактирования профиля">
       </button>
     </div>
   </div>
-  <div id="createCardModal" class="popup">
+  <div id="createCardPopup" class="popup">
     <div class="popup__container">
-      <form id="createCardModalForm" class="popup-form" action="./" method="POST" name="createCard">
+      <form id="createCardPopupForm" class="popup-form" action="./" method="POST" name="createCard">
         <h2 class="popup-form__title">Новое место</h2>
         <fieldset class="popup-form__fieldset">
           <input class="popup-form__input popup-form__input_el_name-of-image" type="text" name="nameOfImage"
-            placeholder="Название">
-          <input class="popup-form__input popup-form__input_el_link-of-image" type="text" name="linkOfImage"
-            placeholder="Ссылка на картинку">
+            placeholder="Название" required>
+          <input class="popup-form__input popup-form__input_el_link-of-image" type="url" name="linkOfImage"
+            placeholder="Ссылка на картинку" required>
         </fieldset>
         <button class="popup-form__submit" type="submit">Создать</button>
       </form>
-      <button id="closeCreateCard" class="popup__close" type="button">
+      <button id="closeCreateCard" class="popup__close" type="button" aria-label="Закрыть форму создания карточки">
       </button>
     </div>
   </div>
-  <div id="showCardModal" class="popup popup_showcase">
+  <div id="showCardPopup" class="popup popup_showcase">
     <div class="popup__container popup__container_showcase">
       <img class="popup__image" loading="lazy">
       <p class="popup__title"></p>
-      <button id="closeShowCard" class="popup__close" type="button">
+      <button id="closeShowCard" class="popup__close" type="button" aria-label="Закрыть просмотр изображения">
       </button>
     </div>
   </div>
@@ -81,11 +87,10 @@
       <img class="element__image" loading="lazy">
       <figcaption class="element__caption">
         <p class="element__text"></p>
-        <button type="button" class="element__like"></button>
+        <button type="button" class="element__like" aria-label="Отметить запись понравившейся"></button>
       </figcaption>
     </figure>
   </template>
-  <script src="./scripts/index.js" defer></script>
 </body>
 
 </html>
