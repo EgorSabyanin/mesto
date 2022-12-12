@@ -30,14 +30,12 @@ popupEditProfileForm.addEventListener("submit", (event) => {
 });
 
 editButton.addEventListener("click", function (event) {
-  event.preventDefault();
   nameInput.value = userName.textContent;
   descriptionInput.value = userDescription.textContent;
   openPopup(editProfilePopup);
 });
 
 closeEditProfilePopup.addEventListener("click", function (event) {
-  event.preventDefault();
   closePopup(editProfilePopup);
 });
 
@@ -51,7 +49,6 @@ const showCardImage = showCardPopup.querySelector(".popup__image");
 const showCardTitle = showCardPopup.querySelector(".popup__title");
 
 closeShowCardPopup.addEventListener("click", (event) => {
-  event.preventDefault();
   closePopup(showCardPopup);
 });
 
@@ -76,29 +73,28 @@ function createCard(cardObject) {
 
   const card = template.querySelector(".element").cloneNode(true);
 
-  card.querySelector(".element__image").src = cardObject.link;
-  card.querySelector(".element__image").alt = cardObject.name;
-  card.querySelector(".element__text").textContent = cardObject.name;
-
   const likeCard = card.querySelector(".element__like");
   const removeCard = card.querySelector(".element__remove");
   const showCard = card.querySelector(".element__image");
+  const titleCard = card.querySelector(".element__text");
+
+  showCard.src = cardObject.link;
+  showCard.alt = cardObject.name;
+  titleCard.textContent = cardObject.name;
 
   likeCard.addEventListener("click", () => {
     likeCard.classList.toggle("element__like_active");
   });
 
   removeCard.addEventListener("click", (event) => {
-    event.preventDefault();
     event.target.closest(".element").remove();
   });
 
   showCard.addEventListener("click", (event) => {
-    event.preventDefault();
     showCardImage.src = cardObject.link;
     showCardImage.alt = cardObject.name;
     showCardTitle.textContent = cardObject.name;
-    showCardPopup.classList.add("popup_opened");
+    openPopup(showCardPopup);
   });
 
   return card;
@@ -131,7 +127,6 @@ createCardPopupForm.addEventListener("submit", (event) => {
 });
 
 createCardButton.addEventListener("click", function (event) {
-  event.preventDefault();
   imageName.value = "";
   imageLink.value = "";
   openPopup(сreateCardPopup);
