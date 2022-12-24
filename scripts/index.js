@@ -1,6 +1,30 @@
+const popups = document.querySelectorAll(".popup");
+
+document.body.addEventListener("keydown", (event) => {
+  const openPopup = document.querySelector(".popup_opened");
+
+  if (event.key === "Escape") closePopup(openPopup);
+});
+
+popups.forEach((popup) => {
+  /**
+   * * Делегирование события клика (при нажатии на оверлей, при нажатии на крестик)
+   */
+  popup.addEventListener("click", (event) => {
+    const targetPopup = event.target.closest(".popup");
+    const targetElement = event.target;
+
+    if (
+      targetElement.classList.contains("popup__close") ||
+      targetElement.classList.contains("popup")
+    ) {
+      closePopup(targetPopup);
+    }
+  });
+});
+
 const editProfilePopup = document.querySelector("#editProfilePopup");
 const editButton = document.querySelector(".profile__edit-button");
-const closeEditProfilePopup = editProfilePopup.querySelector(".popup__close");
 
 const userName = document.querySelector(".profile__name");
 const userDescription = document.querySelector(".profile__description");
@@ -35,22 +59,12 @@ editButton.addEventListener("click", function (event) {
   openPopup(editProfilePopup);
 });
 
-closeEditProfilePopup.addEventListener("click", function (event) {
-  closePopup(editProfilePopup);
-});
-
 //  * * Реализация модального окна показа изображения
 //  */
 
 const showCardPopup = document.querySelector("#showCardPopup");
-const closeShowCardPopup = document.querySelector("#closeShowCard");
-
 const showCardImage = showCardPopup.querySelector(".popup__image");
 const showCardTitle = showCardPopup.querySelector(".popup__title");
-
-closeShowCardPopup.addEventListener("click", (event) => {
-  closePopup(showCardPopup);
-});
 
 /**
  * * Реализация начальной загрузки карточек
@@ -105,8 +119,6 @@ function createCard(cardObject) {
 //  */
 
 const createCardButton = document.querySelector(".profile__add-button");
-const closeCreateCardPopup = document.querySelector("#closeCreateCard");
-
 const сreateCardPopup = document.querySelector("#createCardPopup");
 
 const imageName = сreateCardPopup.querySelector(
@@ -130,8 +142,4 @@ createCardButton.addEventListener("click", function (event) {
   imageName.value = "";
   imageLink.value = "";
   openPopup(сreateCardPopup);
-});
-
-closeCreateCardPopup.addEventListener("click", (event) => {
-  closePopup(сreateCardPopup);
 });
