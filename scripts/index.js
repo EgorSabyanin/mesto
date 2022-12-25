@@ -1,10 +1,9 @@
 const popups = document.querySelectorAll(".popup");
 
-document.body.addEventListener("keydown", (event) => {
-  const openPopup = document.querySelector(".popup_opened");
-
-  if (event.key === "Escape") closePopup(openPopup);
-});
+function closePopupUseEsc(event) {
+  const openedPopup = document.querySelector(".popup_opened");
+  if (event.key === "Escape") closePopup(openedPopup);
+}
 
 popups.forEach((popup) => {
   /**
@@ -39,10 +38,12 @@ const descriptionInput = popupEditProfileForm.querySelector(
 );
 
 function openPopup(popup) {
+  document.body.addEventListener("keydown", closePopupUseEsc);
   popup.classList.add("popup_opened");
 }
 
 function closePopup(popup) {
+  document.body.removeEventListener("keydown", closePopupUseEsc);
   popup.classList.remove("popup_opened");
 }
 
@@ -87,8 +88,6 @@ function createCard(cardObject) {
 
   const card = template.querySelector(".element").cloneNode(true);
 
-  const likeCard = card.querySelector(".element__like");
-  const removeCard = card.querySelector(".element__remove");
   const showCard = card.querySelector(".element__image");
   const titleCard = card.querySelector(".element__text");
 
@@ -96,19 +95,22 @@ function createCard(cardObject) {
   showCard.alt = cardObject.name;
   titleCard.textContent = cardObject.name;
 
-  likeCard.addEventListener("click", () => {
-    likeCard.classList.toggle("element__like_active");
-  });
+  card.addEventListener("click", (event) => {
+    /**
+     * * Делегирование события клика на карточке (лайк, удаление, показ);
+     */
+    if (event.target.classList.contains("element__like"))
+      event.target.classList.toggle("element__like_active");
 
-  removeCard.addEventListener("click", (event) => {
-    event.target.closest(".element").remove();
-  });
+    if (event.target.classList.contains("element__remove"))
+      event.target.closest(".element").remove();
 
-  showCard.addEventListener("click", (event) => {
-    showCardImage.src = cardObject.link;
-    showCardImage.alt = cardObject.name;
-    showCardTitle.textContent = cardObject.name;
-    openPopup(showCardPopup);
+    if (event.target.classList.contains("element__image")) {
+      showCardImage.src = cardObject.link;
+      showCardImage.alt = cardObject.name;
+      showCardTitle.textContent = cardObject.name;
+      openPopup(showCardPopup);
+    }
   });
 
   return card;
@@ -129,6 +131,12 @@ const imageLink = сreateCardPopup.querySelector(
 );
 
 const createCardPopupForm = document.querySelector("#createCardPopupForm");
+
+createCardPopupForm.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    createCard({ name: imageName.value, link: imageLink.value });
+  }
+});
 
 createCardPopupForm.addEventListener("submit", (event) => {
   event.preventDefault();

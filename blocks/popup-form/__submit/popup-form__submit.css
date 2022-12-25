@@ -13,6 +13,7 @@
   background-color: var(--black);
   cursor: pointer;
   transition: all var(--standardTransition);
+  width: 100%;
 }
 
 .popup-form__submit:hover {

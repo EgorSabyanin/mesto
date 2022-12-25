@@ -8,6 +8,7 @@
 
   <link rel="stylesheet" href="./pages/index.css">
 
+  <script src="./scripts/validate.js" defer></script>
   <script src="./scripts/cardsData.js" defer></script>
   <script src="./scripts/index.js" defer></script>
 
@@ -44,14 +45,17 @@
   </div>
   <div id="editProfilePopup" class="popup">
     <div class="popup__container">
-      <form class="popup-form" action="./" method="POST" name="profileEdit">
+      <form class="popup-form" action="./" method="POST" name="profileEdit" novalidate>
         <h2 class="popup-form__title">Редактировать профиль</h2>
         <fieldset class="popup-form__fieldset">
-          <input class="popup-form__input popup-form__input_el_name" type="text" name="name" placeholder="Имя" required>
+          <input class="popup-form__input popup-form__input_el_name" type="text" name="name" placeholder="Имя" required
+            minlength="2" maxlength="40" id="name">
+          <span class="popup-form__input-error name-input-error"></span>
           <input class="popup-form__input popup-form__input_el_description" type="text" name="description"
-            placeholder="О себе" required>
+            placeholder="О себе" required minlength="2" maxlength="200" id="description">
+          <span class="popup-form__input-error description-input-error"></span>
+          <button class="popup-form__submit" type="submit">Сохранить</button>
         </fieldset>
-        <button class="popup-form__submit" type="submit">Сохранить</button>
       </form>
       <button class="popup__close" type="button" aria-label="Закрыть форму редактирования профиля">
       </button>
@@ -59,15 +63,17 @@
   </div>
   <div id="createCardPopup" class="popup">
     <div class="popup__container">
-      <form id="createCardPopupForm" class="popup-form" action="./" method="POST" name="createCard">
+      <form id="createCardPopupForm" class="popup-form" action="./" method="POST" name="createCard" novalidate>
         <h2 class="popup-form__title">Новое место</h2>
         <fieldset class="popup-form__fieldset">
           <input class="popup-form__input popup-form__input_el_name-of-image" type="text" name="nameOfImage"
-            placeholder="Название" required>
+            placeholder="Название" required minlength="2" maxlength="30" id="nameOfImage">
+          <span class="popup-form__input-error nameOfImage-input-error"></span>
           <input class="popup-form__input popup-form__input_el_link-of-image" type="url" name="linkOfImage"
-            placeholder="Ссылка на картинку" required>
+            placeholder="Ссылка на картинку" required id="linkOfImage">
+          <span class="popup-form__input-error linkOfImage-input-error"></span>
+          <button class="popup-form__submit" type="submit">Создать</button>
         </fieldset>
-        <button class="popup-form__submit" type="submit">Создать</button>
       </form>
       <button id="closeCreateCard" class="popup__close" type="button" aria-label="Закрыть форму создания карточки">
       </button>

@@ -1,0 +1,6 @@
+.popup-form__submit_disabled {
+  opacity: 0.2;
+  background-color: unset;
+  color: var(--black);
+  border: 1px solid var(--black);
+}
