@@ -149,7 +149,7 @@ createCardButton.addEventListener("click", function (event) {
   const currentSubmitButton = createCardPopupForm.querySelector(
     validationConfig.submitButtonSelector
   );
-  buttonDisable(currentSubmitButton);
+  disableButton(validationConfig, currentSubmitButton);
   createCardPopupForm.reset();
   openPopup(сreateCardPopup);
 });
