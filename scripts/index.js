@@ -1,4 +1,9 @@
 import { Card } from "./Card.js";
+import { FormValidator } from "./FormValidator.js";
+
+const formValidator = new FormValidator(validationConfig);
+
+formValidator.enableValidation(validationConfig);
 
 const popups = document.querySelectorAll(".popup");
 
