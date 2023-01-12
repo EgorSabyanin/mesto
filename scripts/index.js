@@ -1,3 +1,5 @@
+import { Card } from "./Card.js";
+
 const popups = document.querySelectorAll(".popup");
 
 function closePopupUseEsc(event) {
@@ -60,13 +62,6 @@ editButton.addEventListener("click", function (event) {
   openPopup(editProfilePopup);
 });
 
-//  * * Реализация модального окна показа изображения
-//  */
-
-const showCardPopup = document.querySelector("#showCardPopup");
-const showCardImage = showCardPopup.querySelector(".popup__image");
-const showCardTitle = showCardPopup.querySelector(".popup__title");
-
 /**
  * * Реализация начальной загрузки карточек
  */
@@ -74,52 +69,9 @@ const showCardTitle = showCardPopup.querySelector(".popup__title");
 const cardsContainer = document.querySelector(".elements");
 
 initialCards.forEach((initialCard) => {
-  cardsContainer.append(createCard(initialCard));
+  const card = new Card(initialCard, "#element");
+  cardsContainer.append(card.generateCard());
 });
-
-/** @function Создаёт карточку для профиля пользователя
- * @name createCard
- * @param {object} cardObject передаваемый объект содержит имя и ссылку для изображения.
- * @return {HTMLElement}
- */
-
-function createCard(cardObject) {
-  const template = document.querySelector("#element").content;
-
-  const card = template.querySelector(".element").cloneNode(true);
-
-  const showCard = card.querySelector(".element__image");
-  const titleCard = card.querySelector(".element__text");
-
-  showCard.src = cardObject.link;
-  showCard.alt = cardObject.name;
-  titleCard.textContent = cardObject.name;
-
-  card.addEventListener("click", (event) => {
-    /**
-     * * Делегирование события клика на карточке (лайк, удаление, показ);
-     */
-    if (event.target.classList.contains("element__like")) {
-      event.target.classList.toggle("element__like_active");
-      return;
-    }
-
-    if (event.target.classList.contains("element__remove")) {
-      card.remove();
-      return;
-    }
-
-    if (event.target.classList.contains("element__image")) {
-      showCardImage.src = cardObject.link;
-      showCardImage.alt = cardObject.name;
-      showCardTitle.textContent = cardObject.name;
-      openPopup(showCardPopup);
-      return;
-    }
-  });
-
-  return card;
-}
 
 // /**
 //  * * Реализация создания карточки
@@ -140,7 +92,10 @@ const createCardPopupForm = document.querySelector("#createCardPopupForm");
 createCardPopupForm.addEventListener("submit", (event) => {
   event.preventDefault();
   cardsContainer.prepend(
-    createCard({ name: imageName.value, link: imageLink.value })
+    new Card(
+      { name: imageName.value, link: imageLink.value },
+      "#element"
+    ).generateCard()
   );
   closePopup(сreateCardPopup);
 });
