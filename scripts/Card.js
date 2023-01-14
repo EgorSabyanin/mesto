@@ -1,9 +1,10 @@
 export class Card {
-  constructor(data, template) {
-    this._image = data.link;
+  constructor(data, templateSelector, openPopup) {
+    this._link = data.link;
     this._text = data.name;
-    this._templateSelector = template;
+    this._templateSelector = templateSelector;
     this._popup = document.querySelector("#showCardPopup");
+    this._openPopup = openPopup;
   }
 
   _getTemplate() {
@@ -13,22 +14,6 @@ export class Card {
       .cloneNode(true);
 
     return cardElement;
-  }
-
-  _closePopupUseEsc(event) {
-    if (event.key === "Escape") {
-      this._closePopup();
-    }
-  }
-
-  _openPopup() {
-    document.body.addEventListener("keydown", this._closePopupUseEsc);
-    this._popup.classList.add("popup_opened");
-  }
-
-  _closePopup() {
-    document.body.removeEventListener("keydown", this._closePopupUseEsc);
-    this._popup.classList.remove("popup_opened");
   }
 
   _removeCard() {
@@ -42,10 +27,12 @@ export class Card {
   generateCard() {
     this._element = this._getTemplate();
 
-    this._setEventListeners(); // добавим обработчики
+    this._image = this._element.querySelector(".element__image");
 
-    this._element.querySelector(".element__image").src = this._image;
-    this._element.querySelector(".element__image").alt = this._text;
+    this._setEventListeners();
+
+    this._image.src = this._link;
+    this._image.alt = this._text;
     this._element.querySelector(".element__text").textContent = this._text;
 
     return this._element;
@@ -58,18 +45,11 @@ export class Card {
         return;
       }
       if (event.target.classList.contains("element__image")) {
-        const showCardImage = showCardPopup.querySelector(".popup__image");
-        const showCardTitle = showCardPopup.querySelector(".popup__title");
-
-        showCardImage.src = this._image;
-        showCardImage.alt = this._text;
-        showCardTitle.textContent = this._text;
-        this._openPopup();
+        this._openPopup(this._link, this._text);
         return;
       }
       if (event.target.classList.contains("element__remove")) {
         this._removeCard();
-        return;
       }
     });
   }

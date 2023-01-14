@@ -1,4 +1,4 @@
-const initialCards = [
+export const initialCards = [
   {
     name: "Сибирская зима, когда -40 и снежно",
     link: "https://sun4-17.userapi.com/impg/9jiK-6i2z9vpwfkE6-wdzM5OpgDvsxSNHnnKcA/vTftBek9kjM.jpg?size=1280x960&quality=96&sign=306a7f67cc07fa92bf332bf90db68211&type=album",
