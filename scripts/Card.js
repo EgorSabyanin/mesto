@@ -3,7 +3,6 @@ export class Card {
     this._link = data.link;
     this._text = data.name;
     this._templateSelector = templateSelector;
-    this._popup = document.querySelector("#showCardPopup");
     this._openPopup = openPopup;
   }
 

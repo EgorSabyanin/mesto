@@ -5,18 +5,15 @@ import { FormValidator } from "./FormValidator.js";
 
 const popups = document.querySelectorAll(".popup");
 
+const showImagePopup = document.querySelector("#showCardPopup");
+const image = showImagePopup.querySelector(".popup__image");
+const title = showImagePopup.querySelector(".popup__title");
+
 function openedShowImagePopup(link, text) {
-  document.body.addEventListener("keydown", closePopupUseEsc);
-
-  const showImagePopup = document.querySelector("#showCardPopup");
-  const image = showImagePopup.querySelector(".popup__image");
-  const title = showImagePopup.querySelector(".popup__title");
-
+  openPopup(showImagePopup);
   image.src = link;
   image.alt = text;
   title.textContent = text;
-
-  showImagePopup.classList.add("popup_opened");
 }
 
 function createCard(data) {
@@ -119,9 +116,6 @@ createCardPopupForm.addEventListener("submit", (event) => {
 });
 
 createCardButton.addEventListener("click", function (event) {
-  const currentSubmitButton = createCardPopupForm.querySelector(
-    validationConfig.submitButtonSelector
-  );
   createCardPopupFormValidation.disableButton();
   createCardPopupForm.reset();
   openPopup(сreateCardPopup);
@@ -130,8 +124,6 @@ createCardButton.addEventListener("click", function (event) {
 /**
  * ! Обработка корректности пользовательского ввода на формах
  */
-
-const profileEditForm = editProfilePopup.querySelector(".popup-form");
 
 const createCardPopupFormValidation = new FormValidator(
   validationConfig,
@@ -142,7 +134,7 @@ createCardPopupFormValidation.enableValidation();
 
 const profileEditFormValidation = new FormValidator(
   validationConfig,
-  profileEditForm
+  popupEditProfileForm
 );
 
 profileEditFormValidation.enableValidation();
