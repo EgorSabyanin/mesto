@@ -13,14 +13,14 @@ export default class UserInfo {
   // * getUserInfo возвращает объект, в котором содержится имя и описание пользователя
   getUserInfo() {
     return {
-      name: this._name.textContent,
-      description: this._description.textContent,
+      name: this._name,
+      description: this._description,
     };
   }
 
   // * setUserInfo принимает новые данные пользователя и добавляет их на страницу.
   setUserInfo(data) {
-    this._name.textContent = data.name;
-    this._description.textContent = data._description;
+    this._name = data.name;
+    this._description = data.description;
   }
 }

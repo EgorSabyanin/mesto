@@ -12,15 +12,13 @@ import PopupWithImage from "../components/PopupWithImage";
 // * Импорт констант
 import {
   initialCards,
-  popups,
   showImagePopup,
   editProfilePopup,
-  editButton,
   userName,
   userDescription,
-  popupEditProfileForm,
   nameInput,
   descriptionInput,
+  editButton,
   cardsContainer,
   createCardButton,
   сreateCardPopup,
@@ -48,10 +46,27 @@ const cardList = new Section(
 
 cardList.renderItems();
 
-// * Экземпляры для Popup'ов
+// * Пользовательская информация
+const userInfo = new UserInfo({
+  name: "Жак Ив-Кусто",
+  description: "Исследователь океана",
+});
 
+// * Экземпляры для Popup'ов
 const popupShowImage = new PopupWithImage(showImagePopup);
 popupShowImage.setEventListeners();
+
+const popupEditForm = new PopupWithForm(editProfilePopup, handleEditForm);
+popupEditForm.setEventListeners();
+
+function handleEditForm(data) {
+  userName.textContent = data.name;
+  userDescription.textContent = data.description;
+  userInfo.setUserInfo(data);
+}
+
+const popupCreationCard = new PopupWithForm();
+popupCreationCard.setEventListeners();
 
 function openPopup(popup) {
   document.body.addEventListener("keydown", closePopupUseEsc);
@@ -69,44 +84,10 @@ function createCard(data) {
   return card.generateCard();
 }
 
-function closePopupUseEsc(event) {
-  if (event.key === "Escape") {
-    const openedPopup = document.querySelector(".popup_opened");
-    closePopup(openedPopup);
-  }
-}
-
-popups.forEach((popup) => {
-  /**
-   * * Делегирование события клика (при нажатии на оверлей, при нажатии на крестик)
-   */
-  popup.addEventListener("click", (event) => {
-    const targetElement = event.target;
-    if (
-      targetElement.classList.contains("popup__close") ||
-      targetElement.classList.contains("popup")
-    ) {
-      closePopup(event.currentTarget);
-    }
-  });
-});
-
-function closePopup(popup) {
-  document.body.removeEventListener("keydown", closePopupUseEsc);
-  popup.classList.remove("popup_opened");
-}
-
-popupEditProfileForm.addEventListener("submit", (event) => {
-  event.preventDefault();
-  userName.textContent = nameInput.value;
-  userDescription.textContent = descriptionInput.value;
-  closePopup(editProfilePopup);
-});
-
 editButton.addEventListener("click", function (event) {
-  nameInput.value = userName.textContent;
-  descriptionInput.value = userDescription.textContent;
-  openPopup(editProfilePopup);
+  popupEditForm.open();
+  nameInput.value = userInfo.getUserInfo().name;
+  descriptionInput.value = userInfo.getUserInfo().description;
 });
 
 // /**

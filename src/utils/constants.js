@@ -41,22 +41,18 @@ export const popups = document.querySelectorAll(".popup");
 
 export const showImagePopup = "#showCardPopup";
 
-export const editProfilePopup = document.querySelector("#editProfilePopup");
+export const editProfilePopup = "#editProfilePopup";
+export const popupEditProfileForm = document.querySelector("#editProfileForm");
 export const editButton = document.querySelector(".profile__edit-button");
-
-export const userName = document.querySelector(".profile__name");
-export const userDescription = document.querySelector(".profile__description");
-
-export const popupEditProfileForm =
-  editProfilePopup.querySelector(".popup-form");
-
 export const nameInput = popupEditProfileForm.querySelector(
   ".popup-form__input_el_name"
 );
-
 export const descriptionInput = popupEditProfileForm.querySelector(
   ".popup-form__input_el_description"
 );
+
+export const userName = document.querySelector(".profile__name");
+export const userDescription = document.querySelector(".profile__description");
 
 export const cardsContainer = ".elements";
 
