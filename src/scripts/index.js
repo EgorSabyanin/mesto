@@ -19,6 +19,8 @@ import {
   nameInput,
   descriptionInput,
   editButton,
+  imageLink,
+  imageName,
   cardsContainer,
   createCardButton,
   сreateCardPopup,
@@ -70,7 +72,10 @@ const popupCreationCard = new PopupWithForm(
 popupCreationCard.setEventListeners();
 
 function handleCreationForm(object) {
-  const card = createCard(object);
+  const card = createCard({
+    title: object.nameOfImage,
+    link: object.linkOfImage,
+  });
   cardList.addItem(card);
   popupCreationCard.close();
 }
@@ -95,14 +100,6 @@ editButton.addEventListener("click", function (event) {
 // /**
 //  * * Реализация создания карточки
 //  */
-
-createCardPopupForm.addEventListener("submit", (event) => {
-  event.preventDefault();
-  cardsContainer.prepend(
-    createCard({ name: imageName.value, link: imageLink.value })
-  );
-  closePopup(сreateCardPopup);
-});
 
 createCardButton.addEventListener("click", function (event) {
   popupCreationCard.open();
