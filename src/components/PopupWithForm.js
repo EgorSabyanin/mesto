@@ -19,7 +19,6 @@ export default class PopupWithForm extends Popup {
   // * _getInputValues: собирает данные всех полей формы
   _getInputValues() {
     this.inputValues = {};
-
     this._inputList.forEach((input) => {
       this.inputValues[input.name] = input.value;
     });

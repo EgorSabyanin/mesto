@@ -22,8 +22,6 @@ import {
   cardsContainer,
   createCardButton,
   сreateCardPopup,
-  imageName,
-  imageLink,
   createCardPopupForm,
   createCardPopupFormValidation,
   profileEditFormValidation,
@@ -65,12 +63,16 @@ function handleEditForm(data) {
   userInfo.setUserInfo(data);
 }
 
-const popupCreationCard = new PopupWithForm();
+const popupCreationCard = new PopupWithForm(
+  сreateCardPopup,
+  handleCreationForm
+);
 popupCreationCard.setEventListeners();
 
-function openPopup(popup) {
-  document.body.addEventListener("keydown", closePopupUseEsc);
-  popup.classList.add("popup_opened");
+function handleCreationForm(object) {
+  const card = createCard(object);
+  cardList.addItem(card);
+  popupCreationCard.close();
 }
 
 function openedShowImagePopup(title, link) {
@@ -103,9 +105,9 @@ createCardPopupForm.addEventListener("submit", (event) => {
 });
 
 createCardButton.addEventListener("click", function (event) {
+  popupCreationCard.open();
   createCardPopupFormValidation.disableButton();
   createCardPopupForm.reset();
-  openPopup(сreateCardPopup);
 });
 
 /**

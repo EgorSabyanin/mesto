@@ -57,15 +57,15 @@ export const userDescription = document.querySelector(".profile__description");
 export const cardsContainer = ".elements";
 
 export const createCardButton = document.querySelector(".profile__add-button");
-export const сreateCardPopup = document.querySelector("#createCardPopup");
+export const сreateCardPopup = "#createCardPopup";
 
-export const imageName = сreateCardPopup.querySelector(
-  ".popup-form__input_el_name-of-image"
-);
+// export const imageName = сreateCardPopup.querySelector(
+//   ".popup-form__input_el_name-of-image"
+// );
 
-export const imageLink = сreateCardPopup.querySelector(
-  ".popup-form__input_el_link-of-image"
-);
+// export const imageLink = сreateCardPopup.querySelector(
+//   ".popup-form__input_el_link-of-image"
+// );
 
 export const createCardPopupForm = document.querySelector(
   "#createCardPopupForm"
