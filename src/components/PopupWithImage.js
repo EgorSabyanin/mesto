@@ -9,10 +9,10 @@ export default class PopupWithImage extends Popup {
   }
 
   // * open: Полиморфизм для стандартного открытия popup
-  open(name, link) {
+  open(link, title) {
     this._image.src = link;
-    this._image.alt = name;
-    this._title.textContent = name;
+    this._image.alt = title;
+    this._title.textContent = title;
     super.open();
   }
 }

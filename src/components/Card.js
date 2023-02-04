@@ -1,7 +1,12 @@
+// * Card создаёт карточку путешествия
 export default class Card {
-  constructor(data, templateSelector, openPopup) {
-    this._link = data.link;
-    this._text = data.name;
+  // * Params:
+  // ? {title, link} — строковые значения; название карточки и ссылка
+  // ? templateSelector — строка на селектор шаблон вёртски для карточки
+  // ? openPopup — обработчик, который связывает карточку с popup'ом
+  constructor({ title, link }, templateSelector, openPopup) {
+    this._link = link;
+    this._title = title;
     this._templateSelector = templateSelector;
     this._openPopup = openPopup;
   }
@@ -31,20 +36,22 @@ export default class Card {
     this._setEventListeners();
 
     this._image.src = this._link;
-    this._image.alt = this._text;
-    this._element.querySelector(".element__text").textContent = this._text;
+    this._image.alt = this._title;
+    this._element.querySelector(".element__text").textContent = this._title;
 
     return this._element;
   }
 
+  // * Навешиваем слушателей
   _setEventListeners() {
+    // ! Используем делегирование на целую карточку
     this._element.addEventListener("click", (event) => {
       if (event.target.classList.contains("element__like")) {
         this._like(event);
         return;
       }
       if (event.target.classList.contains("element__image")) {
-        this._openPopup(this._link, this._text);
+        this._openPopup(this._link, this._title);
         return;
       }
       if (event.target.classList.contains("element__remove")) {
