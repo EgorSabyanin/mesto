@@ -1,13 +1,20 @@
 import { initialCards } from "./cardsData.js";
-import { Card } from "./Card.js";
+import { Card } from "../components/Card.js";
 import { validationConfig } from "./validationConfig.js";
 import { FormValidator } from "./FormValidator.js";
+
+import "../pages/index.css"; // Стили страницы
 
 const popups = document.querySelectorAll(".popup");
 
 const showImagePopup = document.querySelector("#showCardPopup");
 const image = showImagePopup.querySelector(".popup__image");
 const title = showImagePopup.querySelector(".popup__title");
+
+function openPopup(popup) {
+  document.body.addEventListener("keydown", closePopupUseEsc);
+  popup.classList.add("popup_opened");
+}
 
 function openedShowImagePopup(link, text) {
   openPopup(showImagePopup);
@@ -57,11 +64,6 @@ const nameInput = popupEditProfileForm.querySelector(
 const descriptionInput = popupEditProfileForm.querySelector(
   ".popup-form__input_el_description"
 );
-
-function openPopup(popup) {
-  document.body.addEventListener("keydown", closePopupUseEsc);
-  popup.classList.add("popup_opened");
-}
 
 function closePopup(popup) {
   document.body.removeEventListener("keydown", closePopupUseEsc);
