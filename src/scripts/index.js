@@ -14,13 +14,11 @@ import {
   initialCards,
   showImagePopup,
   editProfilePopup,
-  userName,
-  userDescription,
+  userNameSelector,
+  userDescriptionSelector,
   nameInput,
   descriptionInput,
   editButton,
-  imageLink,
-  imageName,
   cardsContainer,
   createCardButton,
   сreateCardPopup,
@@ -46,10 +44,11 @@ const cardList = new Section(
 
 cardList.renderItems();
 
+// ! Дописать на корректный + из констант селекторы подтягивать
 // * Пользовательская информация
 const userInfo = new UserInfo({
-  name: "Жак Ив-Кусто",
-  description: "Исследователь океана",
+  userNameSelector: userNameSelector,
+  userDescriptionSelector: userDescriptionSelector,
 });
 
 // * Экземпляры для Popup'ов
@@ -60,8 +59,6 @@ const popupEditForm = new PopupWithForm(editProfilePopup, handleEditForm);
 popupEditForm.setEventListeners();
 
 function handleEditForm(data) {
-  userName.textContent = data.name;
-  userDescription.textContent = data.description;
   userInfo.setUserInfo(data);
 }
 
@@ -92,9 +89,9 @@ function createCard(data) {
 }
 
 editButton.addEventListener("click", function (event) {
-  popupEditForm.open();
   nameInput.value = userInfo.getUserInfo().name;
   descriptionInput.value = userInfo.getUserInfo().description;
+  popupEditForm.open();
 });
 
 // /**

@@ -52,22 +52,23 @@ export default class FormValidator {
 
   _setEventListeners() {
     this._toggleButtonState();
+    
     this._inputList.forEach((inputElement) => {
       inputElement.addEventListener("input", () => {
         this._checkInputValidity(inputElement);
-        this._toggleButtonState(this._buttonSubmit);
+        this._toggleButtonState();
       });
     });
   }
 
   disableButton() {
     this._buttonSubmit.classList.add(this._config.inactiveButtonClass);
-    this._buttonSubmit.setAttribute("disabled", true);
+    this._buttonSubmit.disabled = true;
   }
 
   _enableButton() {
     this._buttonSubmit.classList.remove(this._config.inactiveButtonClass);
-    this._buttonSubmit.removeAttribute("disabled");
+    this._buttonSubmit.disabled = false;
   }
 
   enableValidation() {
