@@ -51,8 +51,8 @@ export const descriptionInput = popupEditProfileForm.querySelector(
   ".popup-form__input_el_description"
 );
 
-export const userName = document.querySelector(".profile__name");
-export const userDescription = document.querySelector(".profile__description");
+export const userNameSelector = ".profile__name";
+export const userDescriptionSelector = ".profile__description";
 
 export const cardsContainer = ".elements";
 
