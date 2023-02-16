@@ -8,10 +8,12 @@ import Section from "../components/Section.js";
 import UserInfo from "../components/UserInfo.js";
 import PopupWithForm from "../components/PopupWithForm";
 import PopupWithImage from "../components/PopupWithImage";
+import Api from "../components/Api";
 
 // * Импорт констант
 import {
   initialCards,
+  API_OPTIONS,
   showImagePopup,
   editProfilePopup,
   userNameSelector,
@@ -26,6 +28,18 @@ import {
   createCardPopupFormValidation,
   profileEditFormValidation,
 } from "../utils/constants";
+
+const api = new Api(API_OPTIONS);
+
+api.getUser().then((result) => {
+  const profileAvatar = document.querySelector(".profile__image");
+  const profileName = document.querySelector(".profile__name");
+  const profileDescription = document.querySelector(".profile__description");
+
+  profileAvatar.src = result.avatar;
+  profileName.textContent = result.name;
+  profileDescription.textContent = result.about;
+});
 
 /**
  * * Реализация начальной загрузки карточек
@@ -44,7 +58,6 @@ const cardList = new Section(
 
 cardList.renderItems();
 
-// ! Дописать на корректный + из констант селекторы подтягивать
 // * Пользовательская информация
 const userInfo = new UserInfo({
   userNameSelector: userNameSelector,
@@ -59,6 +72,7 @@ const popupEditForm = new PopupWithForm(editProfilePopup, handleEditForm);
 popupEditForm.setEventListeners();
 
 function handleEditForm(data) {
+  api.editProfile(data.name, data.description);
   userInfo.setUserInfo(data);
 }
 
@@ -69,6 +83,7 @@ const popupCreationCard = new PopupWithForm(
 popupCreationCard.setEventListeners();
 
 function handleCreationForm(object) {
+  api.createCard(object.nameOfImage, object.linkOfImage);
   const card = createCard({
     title: object.nameOfImage,
     link: object.linkOfImage,

@@ -80,3 +80,9 @@ export const profileEditFormValidation = new FormValidator(
   validationConfig,
   popupEditProfileForm
 );
+
+export const API_OPTIONS = {
+  id: "cohort-60",
+  api: "https://mesto.nomoreparties.co/v1",
+  token: "cba87ec0-b6fc-4b5d-8fac-76903fee7a09",
+};
