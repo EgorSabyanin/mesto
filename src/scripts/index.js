@@ -25,38 +25,53 @@ import {
   createCardButton,
   сreateCardPopup,
   createCardPopupForm,
+  changeAvatarPopup,
+  changeAvatarButton,
+  changeAvatarPopupFormValidation,
+  deleteCardPopup,
   createCardPopupFormValidation,
   profileEditFormValidation,
 } from "../utils/constants";
 
 const api = new Api(API_OPTIONS);
 
-api.getUser().then((result) => {
-  const profileAvatar = document.querySelector(".profile__image");
-  const profileName = document.querySelector(".profile__name");
-  const profileDescription = document.querySelector(".profile__description");
+api
+  .getUser()
+  .then((result) => {
+    const profileAvatar = document.querySelector(".profile__image");
+    const profileName = document.querySelector(".profile__name");
+    const profileDescription = document.querySelector(".profile__description");
 
-  profileAvatar.src = result.avatar;
-  profileName.textContent = result.name;
-  profileDescription.textContent = result.about;
+    profileAvatar.src = result.avatar;
+    profileName.textContent = result.name;
+    profileDescription.textContent = result.about;
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
+api.getInitialCards().then((result) => {
+  result.forEach((res) => {
+    console.log(res);
+  });
+
+  const cardList = new Section(
+    {
+      items: result,
+      renderer: (item) => {
+        const card = createCard(item);
+        cardList.addItem(card);
+      },
+    },
+    cardsContainer
+  );
+
+  cardList.renderItems();
 });
 
 /**
  * * Реализация начальной загрузки карточек
  */
-
-const cardList = new Section(
-  {
-    items: initialCards,
-    renderer: (item) => {
-      const card = createCard(item);
-      cardList.addItem(card);
-    },
-  },
-  cardsContainer
-);
-
-cardList.renderItems();
 
 // * Пользовательская информация
 const userInfo = new UserInfo({
@@ -72,9 +87,20 @@ const popupEditForm = new PopupWithForm(editProfilePopup, handleEditForm);
 popupEditForm.setEventListeners();
 
 function handleEditForm(data) {
-  api.editProfile(data.name, data.description);
+  api.editProfile({ name: data.name, about: data.description }).catch((err) => {
+    console.log(err);
+  });
   userInfo.setUserInfo(data);
 }
+
+// ! СДЕЛАТЬ Удаление собственной карточки
+// const popupDeleteCard = new PopupWithForm(deleteCardPopup, handleDeleteCard);
+// popupDeleteCard.open();
+// popupDeleteCard.setEventListeners();
+
+// function handleDeleteCard() {
+//   console.log("Work");
+// }
 
 const popupCreationCard = new PopupWithForm(
   сreateCardPopup,
@@ -83,13 +109,38 @@ const popupCreationCard = new PopupWithForm(
 popupCreationCard.setEventListeners();
 
 function handleCreationForm(object) {
-  api.createCard(object.nameOfImage, object.linkOfImage);
+  api
+    .createCard({ name: object.nameOfImage, link: object.linkOfImage })
+    .catch((err) => {
+      console.log(err);
+    });
   const card = createCard({
     title: object.nameOfImage,
     link: object.linkOfImage,
   });
-  cardList.addItem(card);
   popupCreationCard.close();
+  cardList.addItem(card);
+}
+
+/**
+ * * Изменение аватара
+ */
+
+const popupChangeAvatar = new PopupWithForm(
+  changeAvatarPopup,
+  handleChangeAvatarForm
+);
+popupChangeAvatar.setEventListeners();
+
+changeAvatarButton.addEventListener("click", function () {
+  popupChangeAvatar.open();
+});
+
+function handleChangeAvatarForm(object) {
+  popupChangeAvatar.close();
+  api.createAvatar({ avatar: object.linkOfAvatar }).catch((err) => {
+    console.log(err);
+  });
 }
 
 function openedShowImagePopup(title, link) {
@@ -103,7 +154,7 @@ function createCard(data) {
   return card.generateCard();
 }
 
-editButton.addEventListener("click", function (event) {
+editButton.addEventListener("click", function () {
   nameInput.value = userInfo.getUserInfo().name;
   descriptionInput.value = userInfo.getUserInfo().description;
   popupEditForm.open();
@@ -113,7 +164,7 @@ editButton.addEventListener("click", function (event) {
 //  * * Реализация создания карточки
 //  */
 
-createCardButton.addEventListener("click", function (event) {
+createCardButton.addEventListener("click", function () {
   popupCreationCard.open();
   createCardPopupFormValidation.disableButton();
   createCardPopupForm.reset();
@@ -125,3 +176,4 @@ createCardButton.addEventListener("click", function (event) {
 
 createCardPopupFormValidation.enableValidation();
 profileEditFormValidation.enableValidation();
+changeAvatarPopupFormValidation.enableValidation();

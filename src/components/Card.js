@@ -4,9 +4,11 @@ export default class Card {
   // ? {title, link} — строковые значения; название карточки и ссылка
   // ? templateSelector — строка на селектор шаблон вёртски для карточки
   // ? openPopup — обработчик, который связывает карточку с popup'ом
-  constructor({ title, link }, templateSelector, openPopup) {
+  constructor({ name, link, likes, _id }, templateSelector, openPopup) {
+    this._id = _id;
     this._link = link;
-    this._title = title;
+    this._title = name;
+    this._likes = likes.length;
     this._templateSelector = templateSelector;
     this._openPopup = openPopup;
   }
@@ -32,11 +34,13 @@ export default class Card {
     this._element = this._getTemplate();
 
     this._image = this._element.querySelector(".element__image");
+    this._likeCounter = this._element.querySelector(".element__like-counter");
 
     this._setEventListeners();
 
     this._image.src = this._link;
     this._image.alt = this._title;
+    this._likeCounter.textContent = this._likes;
     this._element.querySelector(".element__text").textContent = this._title;
 
     return this._element;

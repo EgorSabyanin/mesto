@@ -71,9 +71,23 @@ export const createCardPopupForm = document.querySelector(
   "#createCardPopupForm"
 );
 
+export const changeAvatarPopup = "#changeAvatarPopup";
+export const changeAvatarButton = document.querySelector(
+  ".profile__avatar-button"
+);
+
 export const createCardPopupFormValidation = new FormValidator(
   validationConfig,
   createCardPopupForm
+);
+
+export const changeAvatarForm = document.querySelector("#changeAvatarForm");
+
+export const deleteCardPopup = "#deleteCardPopup";
+
+export const changeAvatarPopupFormValidation = new FormValidator(
+  validationConfig,
+  changeAvatarForm
 );
 
 export const profileEditFormValidation = new FormValidator(

@@ -22,8 +22,11 @@
     <main>
       <section class="profile">
         <div class="profile__info">
-          <img class="profile__image" src="<%=require('./images/users/jack-kusto.jpg')%>" alt="Жак-Ив Кусто"
-            loading="lazy">
+          <div class="profile__avatar-container">
+            <img class="profile__image" src="<%=require('./images/users/jack-kusto.jpg')%>" alt="Жак-Ив Кусто"
+              loading="lazy">
+            <button class="profile__avatar-button"></button>
+          </div>
           <div class="profile__content">
             <div class="profile__edit">
               <h1 class="profile__name">Жак-Ив Кусто</h1>
@@ -77,6 +80,33 @@
       </button>
     </div>
   </div>
+  <div id="changeAvatarPopup" class="popup">
+    <div class="popup__container">
+      <form id="changeAvatarForm" class="popup-form" action="./" method="POST" name="profileEdit" novalidate>
+        <h2 class="popup-form__title">Обновить аватар</h2>
+        <fieldset class="popup-form__fieldset">
+          <input class="popup-form__input popup-form__input_el_link-of-image" type="url" name="linkOfAvatar"
+            placeholder="Ссылка на аватар" required id="linkOfAvatar">
+          <span class="popup-form__input-error linkOfAvatar-input-error"></span>
+          <button class="popup-form__submit" type="submit">Да</button>
+        </fieldset>
+      </form>
+      <button class="popup__close" type="button" aria-label="Закрыть форму редактирования профиля">
+      </button>
+    </div>
+  </div>
+  <!-- <div id="deleteCardPopup" class="popup">
+    <div class="popup__container">
+      <form id="deleteCardForm" class="popup-form" action="./" method="POST" name="profileEdit" novalidate>
+        <h2 class="popup-form__title">Вы уверены?</h2>
+        <fieldset class="popup-form__fieldset">
+          <button class="popup-form__submit" type="submit">Да</button>
+        </fieldset>
+      </form>
+      <button class="popup__close" type="button" aria-label="Закрыть форму редактирования профиля">
+      </button>
+    </div>
+  </div> -->
   <div id="showCardPopup" class="popup popup_showcase">
     <div class="popup__container popup__container_showcase">
       <img class="popup__image" loading="lazy">
@@ -91,7 +121,10 @@
       <img class="element__image" loading="lazy">
       <figcaption class="element__caption">
         <p class="element__text"></p>
-        <button type="button" class="element__like" aria-label="Отметить запись понравившейся"></button>
+        <div class="element__like-container">
+          <button type="button" class="element__like" aria-label="Отметить запись понравившейся"></button>
+          <span class="element__like-counter"></span>
+        </div>
       </figcaption>
     </figure>
   </template>

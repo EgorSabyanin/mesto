@@ -41,7 +41,7 @@ export default class Api {
       });
   }
 
-  editProfile(name, about) {
+  editProfile(data) {
     fetch(`https://mesto.nomoreparties.co/v1/${this._id}/users/me`, {
       method: "PATCH",
       headers: {
@@ -49,13 +49,13 @@ export default class Api {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        name: name,
-        about: about,
+        name: data.name,
+        about: data.about,
       }),
     });
   }
 
-  createCard(name, link) {
+  createCard(data) {
     fetch(`https://mesto.nomoreparties.co/v1/${this._id}/cards `, {
       method: "POST",
       headers: {
@@ -63,9 +63,52 @@ export default class Api {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        name: name,
-        link: link,
+        name: data.name,
+        link: data.link,
       }),
     });
+  }
+
+  addLike(cardID) {
+    fetch(
+      `https://mesto.nomoreparties.co/v1/${this._id}/cards/${cardID}/likes`,
+      {
+        method: "PUT",
+        headers: {
+          authorization: this._token,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+  }
+
+  removeLike(cardID) {
+    fetch(
+      `https://mesto.nomoreparties.co/v1/${this._id}/cards/${cardID}/likes`,
+      {
+        method: "DELETE",
+        headers: {
+          authorization: this._token,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+  }
+
+  createAvatar(data) {
+    fetch(`https://mesto.nomoreparties.co/v1/${this._id}/users/me/avatar`, {
+      method: "PATCH",
+      headers: {
+        authorization: this._token,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        avatar: data.avatar,
+      }),
+    });
+  }
+
+  test() {
+    console.log("Work!!!");
   }
 }
