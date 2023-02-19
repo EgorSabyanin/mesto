@@ -147,10 +147,30 @@ function openedShowImagePopup(title, link) {
   popupShowImage.open(title, link);
 }
 
+// * Лайк fetch
+
+function likeAddHandler(cardID) {
+  api.addLike(cardID);
+  event.target.nextElementSibling.textContent =
+    +event.target.nextElementSibling.textContent + 1;
+}
+
+function likeRemoveHandler(cardID) {
+  api.removeLike(cardID);
+  event.target.nextElementSibling.textContent =
+    +event.target.nextElementSibling.textContent - 1;
+}
+
 // * Создание карточки
 
 function createCard(data) {
-  const card = new Card(data, "#element", openedShowImagePopup);
+  const card = new Card(
+    data,
+    "#element",
+    openedShowImagePopup,
+    likeAddHandler,
+    likeRemoveHandler
+  );
   return card.generateCard();
 }
 

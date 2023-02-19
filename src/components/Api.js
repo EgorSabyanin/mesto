@@ -3,6 +3,8 @@ export default class Api {
     this._id = options.id;
     this._token = options.token;
     this._api = options.api;
+
+    this.addLike = this.addLike.bind(this);
   }
 
   getUser() {
@@ -106,9 +108,5 @@ export default class Api {
         avatar: data.avatar,
       }),
     });
-  }
-
-  test() {
-    console.log("Work!!!");
   }
 }
