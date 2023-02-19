@@ -54,7 +54,13 @@ export default class Api {
         name: data.name,
         about: data.about,
       }),
-    });
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+      })
+      .then((data) => data);
   }
 
   createCard(data) {
@@ -68,7 +74,13 @@ export default class Api {
         name: data.name,
         link: data.link,
       }),
-    });
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+      })
+      .then((data) => data);
   }
 
   addLike(cardID) {
@@ -107,6 +119,16 @@ export default class Api {
       body: JSON.stringify({
         avatar: data.avatar,
       }),
+    });
+  }
+
+  removeCard(cardId) {
+    fetch(`https://mesto.nomoreparties.co/v1/${this._id}/cards/${cardId}`, {
+      method: "DELETE",
+      headers: {
+        authorization: this._token,
+        "Content-Type": "application/json",
+      },
     });
   }
 }

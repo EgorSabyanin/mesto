@@ -8,18 +8,27 @@ export default class Card {
     { owner, name, link, likes, _id },
     templateSelector,
     openPopup,
+    deletePopup,
+    personalPromise,
     likeAddHandler,
-    likeRemoveHandler
+    likeRemoveHandler,
+    removeCardHandler
   ) {
+    this._personalPromise = personalPromise;
     this._owner = owner;
     this._cardId = _id;
     this._link = link;
     this._title = name;
     this._likes = likes;
     this._templateSelector = templateSelector;
+
     this._openPopup = openPopup;
+    this._deletePopup = deletePopup;
+
     this._likeAddHandler = likeAddHandler;
     this._likeRemoveHandler = likeRemoveHandler;
+
+    this._removeCardHandler = removeCardHandler;
   }
 
   _getTemplate() {
@@ -32,6 +41,7 @@ export default class Card {
   }
 
   _removeCard() {
+    this._removeCardHandler(this._cardId);
     this._element.remove();
   }
 
@@ -51,6 +61,7 @@ export default class Card {
     this._image = this._element.querySelector(".element__image");
     this._likeIcon = this._element.querySelector(".element__like");
     this._likeCounter = this._element.querySelector(".element__like-counter");
+    this._deleteBtn = this._element.querySelector(".element__remove");
 
     this._setEventListeners();
 
@@ -59,12 +70,18 @@ export default class Card {
     this._likeCounter.textContent = this._likes.length;
     this._element.querySelector(".element__text").textContent = this._title;
 
-    this._likes.filter((userLiked) => {
-      if (userLiked._id === "9f31c950e150d5051da1835a") {
-        // Не owner, а мой Id среди лайкнувниш, тогда красим
-        // BUG: Но как передать свой ID сюда. Хм, нужно подумать?
-        this._likeIcon.classList.add("element__like_active");
+    this._personalPromise.then((res) => {
+      if (this._owner._id !== res._id) {
+        this._deleteBtn.remove();
       }
+    });
+
+    this._personalPromise.then((res) => {
+      this._likes.forEach((userLiked) => {
+        if (userLiked._id === res._id) {
+          this._likeIcon.classList.add("element__like_active");
+        }
+      });
     });
 
     return this._element;

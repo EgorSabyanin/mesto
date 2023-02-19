@@ -29,6 +29,7 @@ import {
   changeAvatarButton,
   changeAvatarPopupFormValidation,
   deleteCardPopup,
+  deleteCardPopupForm,
   createCardPopupFormValidation,
   profileEditFormValidation,
 } from "../utils/constants";
@@ -51,10 +52,6 @@ api
   });
 
 api.getInitialCards().then((result) => {
-  result.forEach((res) => {
-    console.log(res);
-  });
-
   const cardList = new Section(
     {
       items: result,
@@ -87,20 +84,16 @@ const popupEditForm = new PopupWithForm(editProfilePopup, handleEditForm);
 popupEditForm.setEventListeners();
 
 function handleEditForm(data) {
-  api.editProfile({ name: data.name, about: data.description }).catch((err) => {
-    console.log(err);
-  });
+  api.editProfile({ name: data.name, about: data.description });
   userInfo.setUserInfo(data);
 }
 
-// ! СДЕЛАТЬ Удаление собственной карточки
-// const popupDeleteCard = new PopupWithForm(deleteCardPopup, handleDeleteCard);
-// popupDeleteCard.open();
-// popupDeleteCard.setEventListeners();
+const popupDeleteCard = new PopupWithForm(deleteCardPopup, handleDeleteCard);
+popupDeleteCard.setEventListeners();
 
-// function handleDeleteCard() {
-//   console.log("Work");
-// }
+function handleDeleteCard() {
+  console.log("Work");
+}
 
 const popupCreationCard = new PopupWithForm(
   сreateCardPopup,
@@ -109,11 +102,7 @@ const popupCreationCard = new PopupWithForm(
 popupCreationCard.setEventListeners();
 
 function handleCreationForm(object) {
-  api
-    .createCard({ name: object.nameOfImage, link: object.linkOfImage })
-    .catch((err) => {
-      console.log(err);
-    });
+  api.createCard({ name: object.nameOfImage, link: object.linkOfImage });
   const card = createCard({
     title: object.nameOfImage,
     link: object.linkOfImage,
@@ -147,7 +136,7 @@ function openedShowImagePopup(title, link) {
   popupShowImage.open(title, link);
 }
 
-// * Лайк fetch
+// * Лайк handlers
 
 function likeAddHandler(cardID) {
   api.addLike(cardID);
@@ -161,6 +150,12 @@ function likeRemoveHandler(cardID) {
     +event.target.nextElementSibling.textContent - 1;
 }
 
+// * Удаление карточки handler
+
+function removeCardHandler(cardID) {
+  api.removeCard(cardID);
+}
+
 // * Создание карточки
 
 function createCard(data) {
@@ -168,8 +163,11 @@ function createCard(data) {
     data,
     "#element",
     openedShowImagePopup,
+    popupDeleteCard,
+    api.getUser(),
     likeAddHandler,
-    likeRemoveHandler
+    likeRemoveHandler,
+    removeCardHandler
   );
   return card.generateCard();
 }
