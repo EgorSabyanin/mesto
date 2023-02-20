@@ -42,7 +42,11 @@ export default class Card {
 
   _removeCard() {
     this._removeCardHandler(this._cardId);
+  }
+
+  remove() {
     this._element.remove();
+    this._element = null;
   }
 
   _like(event) {
@@ -100,7 +104,10 @@ export default class Card {
         return;
       }
       if (event.target.classList.contains("element__remove")) {
-        this._removeCard();
+        console.error(this);
+        this._removeCardHandler(this._cardId);
+        // this._deletePopup.open();
+        // this._removeCard();
       }
     });
   }

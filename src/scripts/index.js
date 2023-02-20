@@ -8,6 +8,7 @@ import Section from "../components/Section.js";
 import UserInfo from "../components/UserInfo.js";
 import PopupWithForm from "../components/PopupWithForm";
 import PopupWithImage from "../components/PopupWithImage";
+import PopupConfirm from "../components/PopupDelCard";
 import Api from "../components/Api";
 
 // * Импорт констант
@@ -83,16 +84,20 @@ popupShowImage.setEventListeners();
 const popupEditForm = new PopupWithForm(editProfilePopup, handleEditForm);
 popupEditForm.setEventListeners();
 
+const popupDeleteCard = new PopupConfirm(deleteCardPopup, function (card) {
+  api
+    .removeCard(card)
+    .then(() => {
+      card.remove();
+      popupDeleteCard.close();
+    })
+    .catch((err) => console.log(err));
+});
+popupDeleteCard.setEventListeners();
+
 function handleEditForm(data) {
   api.editProfile({ name: data.name, about: data.description });
   userInfo.setUserInfo(data);
-}
-
-const popupDeleteCard = new PopupWithForm(deleteCardPopup, handleDeleteCard);
-popupDeleteCard.setEventListeners();
-
-function handleDeleteCard() {
-  console.log("Work");
 }
 
 const popupCreationCard = new PopupWithForm(
@@ -153,7 +158,7 @@ function likeRemoveHandler(cardID) {
 // * Удаление карточки handler
 
 function removeCardHandler(cardID) {
-  api.removeCard(cardID);
+  popupDeleteCard.open(cardID);
 }
 
 // * Создание карточки

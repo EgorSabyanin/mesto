@@ -84,6 +84,7 @@ export const createCardPopupFormValidation = new FormValidator(
 export const changeAvatarForm = document.querySelector("#changeAvatarForm");
 
 export const deleteCardPopup = "#deleteCardPopup";
+export const deleteCardPopupForm = document.querySelector("#deleteCardForm");
 
 export const changeAvatarPopupFormValidation = new FormValidator(
   validationConfig,
