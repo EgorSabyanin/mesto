@@ -9,12 +9,12 @@ export default class Card {
     templateSelector,
     openPopup,
     deletePopup,
-    personalPromise,
+    userID,
     likeAddHandler,
     likeRemoveHandler,
     removeCardHandler
   ) {
-    this._personalPromise = personalPromise;
+    this._userID = userID;
     this._owner = owner;
     this._cardId = _id;
     this._link = link;
@@ -74,18 +74,16 @@ export default class Card {
     this._likeCounter.textContent = this._likes.length;
     this._element.querySelector(".element__text").textContent = this._title;
 
-    this._personalPromise.then((res) => {
-      if (this._owner._id !== res._id) {
-        this._deleteBtn.remove();
-      }
-    });
+    // * Удялаем иконку корзины, если не мы владелец карточки
+    if (this._owner._id !== this._userID) {
+      this._deleteBtn.remove();
+    }
 
-    this._personalPromise.then((res) => {
-      this._likes.forEach((userLiked) => {
-        if (userLiked._id === res._id) {
-          this._likeIcon.classList.add("element__like_active");
-        }
-      });
+    // * Для наших собственных лайков
+    this._likes.filter((userLiked) => {
+      if (userLiked._id === this._userID) {
+        this._likeIcon.classList.add("element__like_active");
+      }
     });
 
     return this._element;
@@ -104,7 +102,6 @@ export default class Card {
         return;
       }
       if (event.target.classList.contains("element__remove")) {
-        console.error(this);
         this._removeCardHandler(this._cardId);
         // this._deletePopup.open();
         // this._removeCard();

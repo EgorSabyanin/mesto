@@ -29,6 +29,9 @@ export default class UserInfo {
     if (data.name) this._nameElement.textContent = data.name;
     if (data.description)
       this._descriptionElement.textContent = data.description;
-    if (data.avatar) this._descriptionElement.textContent = data.description;
+    if (data.avatar) {
+      this._avatarElement.src = data.avatar;
+      this._avatarElement.alt = `${data.name}: ${data.description}`;
+    }
   }
 }

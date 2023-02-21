@@ -23,6 +23,7 @@ import {
   nameInput,
   descriptionInput,
   profileButtonEdit,
+  profileEditPopupForm,
   cardsContainer,
   cardButtonCreate,
   cardCreatePopup,
@@ -47,7 +48,7 @@ const changeAvatarPopupFormValidation = new FormValidator(
 
 const profileEditFormValidation = new FormValidator(
   validationConfig,
-  popupEditProfileForm
+  profileEditPopupForm
 );
 
 const api = new Api(API_OPTIONS);
@@ -55,32 +56,25 @@ const api = new Api(API_OPTIONS);
 api
   .getUser()
   .then((result) => {
+    userInfo.setUserInfo({
+      name: result.name,
+      description: result.about,
+      avatar: result.avatar,
+    });
+
+    const user = userInfo.getUserInfo();
+
     const profileAvatar = document.querySelector(".profile__image");
     const profileName = document.querySelector(".profile__name");
     const profileDescription = document.querySelector(".profile__description");
 
-    profileAvatar.src = result.avatar;
-    profileName.textContent = result.name;
-    profileDescription.textContent = result.about;
+    profileAvatar.src = user.avatar;
+    profileName.textContent = user.name;
+    profileDescription.textContent = user.description;
   })
   .catch((err) => {
     console.log(err);
   });
-
-api.getInitialCards().then((result) => {
-  const cardList = new Section(
-    {
-      items: result,
-      renderer: (item) => {
-        const card = createCard(item);
-        cardList.addItem(card);
-      },
-    },
-    cardsContainer
-  );
-
-  cardList.renderItems();
-});
 
 /**
  * * Реализация начальной загрузки карточек
@@ -112,7 +106,7 @@ const popupDeleteCard = new PopupConfirm(cardDeletePopup, function (card) {
 popupDeleteCard.setEventListeners();
 
 function handleEditForm(data) {
-  api.editProfile({ name: data.name, about: data.description });
+  api.editUserProfile({ name: data.name, about: data.description });
   userInfo.setUserInfo(data);
 }
 
@@ -148,9 +142,9 @@ avatarChangeButton.addEventListener("click", function () {
 
 function handleChangeAvatarForm(object) {
   popupChangeAvatar.close();
-  api.createAvatar({ avatar: object.linkOfAvatar }).catch((err) => {
-    console.log(err);
-  });
+  console.log(object);
+  api.createAvatar({ avatar: object.linkOfAvatar });
+  userInfo.setUserInfo({ avatar: object.linkOfAvatar });
 }
 
 function openedShowImagePopup(title, link) {
@@ -185,7 +179,7 @@ function createCard(data) {
     "#element",
     openedShowImagePopup,
     popupDeleteCard,
-    api.getUser(),
+    userID,
     likeAddHandler,
     likeRemoveHandler,
     removeCardHandler
@@ -194,8 +188,9 @@ function createCard(data) {
 }
 
 profileButtonEdit.addEventListener("click", function () {
-  nameInput.value = userInfo.getUserInfo().name;
-  descriptionInput.value = userInfo.getUserInfo().description;
+  const user = userInfo.getUserInfo();
+  nameInput.value = user.name;
+  descriptionInput.value = user.description;
   popupEditForm.open();
 });
 
@@ -216,3 +211,41 @@ cardButtonCreate.addEventListener("click", function () {
 createCardPopupFormValidation.enableValidation();
 profileEditFormValidation.enableValidation();
 changeAvatarPopupFormValidation.enableValidation();
+
+function render(renderedElement, container) {
+  container.prepend(renderedElement);
+}
+
+const cardsSection = new Section(render, cardsContainer);
+
+// ! Получаем сначала данные пользователя, а затем данные карточек
+Promise.all([api.getUser(), api.getInitialCards()])
+  .then((result) => {
+    const userData = result[0];
+    const initialCardsData = result[1];
+
+    userInfo.setUserInfo({
+      name: userData.name,
+      description: userData.about,
+      avatar: userData.avatar,
+    });
+
+    userInfo.id = userData._id;
+
+    const initialCardElements = initialCardsData.map((initialCardData) => {
+      const card = new Card(
+        initialCardData,
+        "#element",
+        openedShowImagePopup,
+        popupDeleteCard,
+        userInfo.id,
+        likeAddHandler,
+        likeRemoveHandler,
+        removeCardHandler
+      );
+      return card.generateCard();
+    });
+
+    cardsSection.renderItems(initialCardElements);
+  })
+  .catch((err) => console.log(err));

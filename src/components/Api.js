@@ -16,42 +16,28 @@ export default class Api {
 
   getUser() {
     return fetch(`https://nomoreparties.co/v1/${this._id}/users/me`, {
+      method: "GET",
       headers: {
         authorization: this._token,
       },
-    })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-
-        return Promise.reject(`Ошибка: ${res.status}`);
-      })
-      .then((result) => {
-        return result;
-      });
+    }).then((res) => {
+      return this._getResponseData(res);
+    });
   }
 
   getInitialCards() {
     return fetch(`${this._api}/${this._id}/cards`, {
+      method: "GET",
       headers: {
         authorization: this._token,
       },
-    })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-
-        return Promise.reject(`Ошибка: ${res.status}`);
-      })
-      .then((result) => {
-        return result;
-      });
+    }).then((res) => {
+      return this._getResponseData(res);
+    });
   }
 
-  editProfile(data) {
-    fetch(`https://mesto.nomoreparties.co/v1/${this._id}/users/me`, {
+  editUserProfile(data) {
+    return fetch(`https://mesto.nomoreparties.co/v1/${this._id}/users/me`, {
       method: "PATCH",
       headers: {
         authorization: this._token,
@@ -61,17 +47,13 @@ export default class Api {
         name: data.name,
         about: data.about,
       }),
-    })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-      })
-      .then((data) => data);
+    }).then((res) => {
+      return this._getResponseData(res);
+    });
   }
 
   createCard(data) {
-    fetch(`https://mesto.nomoreparties.co/v1/${this._id}/cards `, {
+    return fetch(`https://mesto.nomoreparties.co/v1/${this._id}/cards `, {
       method: "POST",
       headers: {
         authorization: this._token,
@@ -81,11 +63,28 @@ export default class Api {
         name: data.name,
         link: data.link,
       }),
-    }).then(this._getResponseData(res));
+    }).then((res) => {
+      return this._getResponseData(res);
+    });
+  }
+
+  removeCard(cardId) {
+    return fetch(
+      `https://mesto.nomoreparties.co/v1/${this._id}/cards/${cardId}`,
+      {
+        method: "DELETE",
+        headers: {
+          authorization: this._token,
+          "Content-Type": "application/json",
+        },
+      }
+    ).then((res) => {
+      return this._getResponseData(res);
+    });
   }
 
   addLike(cardID) {
-    fetch(
+    return fetch(
       `https://mesto.nomoreparties.co/v1/${this._id}/cards/${cardID}/likes`,
       {
         method: "PUT",
@@ -94,11 +93,13 @@ export default class Api {
           "Content-Type": "application/json",
         },
       }
-    );
+    ).then((res) => {
+      return this._getResponseData(res);
+    });
   }
 
   removeLike(cardID) {
-    fetch(
+    return fetch(
       `https://mesto.nomoreparties.co/v1/${this._id}/cards/${cardID}/likes`,
       {
         method: "DELETE",
@@ -107,29 +108,26 @@ export default class Api {
           "Content-Type": "application/json",
         },
       }
-    );
-  }
-
-  createAvatar(data) {
-    fetch(`https://mesto.nomoreparties.co/v1/${this._id}/users/me/avatar`, {
-      method: "PATCH",
-      headers: {
-        authorization: this._token,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        avatar: data.avatar,
-      }),
+    ).then((res) => {
+      return this._getResponseData(res);
     });
   }
 
-  removeCard(cardId) {
-    fetch(`https://mesto.nomoreparties.co/v1/${this._id}/cards/${cardId}`, {
-      method: "DELETE",
-      headers: {
-        authorization: this._token,
-        "Content-Type": "application/json",
-      },
+  createAvatar(data) {
+    return fetch(
+      `https://mesto.nomoreparties.co/v1/${this._id}/users/me/avatar`,
+      {
+        method: "PATCH",
+        headers: {
+          authorization: this._token,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          avatar: data.avatar,
+        }),
+      }
+    ).this((res) => {
+      return this._getResponseData(res);
     });
   }
 }

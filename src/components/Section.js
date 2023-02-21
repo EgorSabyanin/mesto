@@ -2,11 +2,9 @@
 
 export default class Section {
   // * Params
-  // ? items: Начальный массив элементов для добавлении в секцию
   // ? renderer: Отрисовка происходит благодаря коллбэк функции renderer, которая гененирует разметку DOM-элемента
   // ? contaunerSelector: селектор родительского элемента, используется для нахождения DOM-элемента для вставки дочерних DOM-узлов
-  constructor({ items, renderer }, containerSelector) {
-    this._items = items;
+  constructor(renderer, containerSelector) {
     this._renderer = renderer;
     this._container = document.querySelector(containerSelector);
   }
@@ -17,10 +15,9 @@ export default class Section {
   }
 
   // * Отрисовывает начальные элементы
-  renderItems() {
-    this.clear();
-    this._items.forEach((item) => {
-      this._renderer(item);
+  renderItems(items) {
+    items.reverse().forEach((item) => {
+      this._renderer(item, this._container);
     });
   }
 
