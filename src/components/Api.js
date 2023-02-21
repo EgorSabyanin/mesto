@@ -126,7 +126,7 @@ export default class Api {
           avatar: data.avatar,
         }),
       }
-    ).this((res) => {
+    ).then((res) => {
       return this._getResponseData(res);
     });
   }

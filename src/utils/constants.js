@@ -8,6 +8,7 @@ export const validationConfig = {
   errorClass: "form__input-error_active",
 };
 
+export const cardTemplateSelector = "#element";
 export const cardsContainer = ".elements";
 export const popups = document.querySelectorAll(".popup");
 

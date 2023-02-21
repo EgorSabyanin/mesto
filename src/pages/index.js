@@ -51,6 +51,8 @@ const profileEditFormValidation = new FormValidator(
   profileEditPopupForm
 );
 
+const cardsList = new Section(render, cardsContainer);
+
 const api = new Api(API_OPTIONS);
 
 api
@@ -106,8 +108,11 @@ const popupDeleteCard = new PopupConfirm(cardDeletePopup, function (card) {
 popupDeleteCard.setEventListeners();
 
 function handleEditForm(data) {
-  api.editUserProfile({ name: data.name, about: data.description });
-  userInfo.setUserInfo(data);
+  api
+    .editUserProfile({ name: data.name, about: data.description })
+    .then((res) => {
+      userInfo.setUserInfo({ name: res.name, description: res.about });
+    });
 }
 
 const popupCreationCard = new PopupWithForm(
@@ -117,13 +122,14 @@ const popupCreationCard = new PopupWithForm(
 popupCreationCard.setEventListeners();
 
 function handleCreationForm(object) {
-  api.createCard({ name: object.nameOfImage, link: object.linkOfImage });
-  const card = createCard({
-    title: object.nameOfImage,
-    link: object.linkOfImage,
-  });
-  popupCreationCard.close();
-  cardList.addItem(card);
+  api
+    .createCard({ name: object.nameOfImage, link: object.linkOfImage })
+    .then((res) => {
+      const card = createCard(res, userInfo.id);
+      popupCreationCard.close();
+      cardsList.addItem(card);
+    })
+    .catch((err) => console.log(err));
 }
 
 /**
@@ -141,10 +147,15 @@ avatarChangeButton.addEventListener("click", function () {
 });
 
 function handleChangeAvatarForm(object) {
-  popupChangeAvatar.close();
-  console.log(object);
-  api.createAvatar({ avatar: object.linkOfAvatar });
-  userInfo.setUserInfo({ avatar: object.linkOfAvatar });
+  api
+    .createAvatar({ avatar: object.linkOfAvatar })
+    .then((res) => {
+      userInfo.setUserInfo({ avatar: res.avatar });
+      popupChangeAvatar.close();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }
 
 function openedShowImagePopup(title, link) {
@@ -154,15 +165,27 @@ function openedShowImagePopup(title, link) {
 // * Лайк handlers
 
 function likeAddHandler(cardID) {
-  api.addLike(cardID);
-  event.target.nextElementSibling.textContent =
-    +event.target.nextElementSibling.textContent + 1;
+  const currentLikeCounter = event.target.nextElementSibling;
+  api
+    .addLike(cardID)
+    .then((res) => {
+      currentLikeCounter.textContent = res.likes.length;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }
 
 function likeRemoveHandler(cardID) {
-  api.removeLike(cardID);
-  event.target.nextElementSibling.textContent =
-    +event.target.nextElementSibling.textContent - 1;
+  const currentLikeCounter = event.target.nextElementSibling;
+  api
+    .removeLike(cardID)
+    .then((res) => {
+      currentLikeCounter.textContent = res.likes.length;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }
 
 // * Удаление карточки handler
@@ -173,7 +196,7 @@ function removeCardHandler(cardID) {
 
 // * Создание карточки
 
-function createCard(data) {
+function createCard(data, userID) {
   const card = new Card(
     data,
     "#element",
@@ -216,8 +239,6 @@ function render(renderedElement, container) {
   container.prepend(renderedElement);
 }
 
-const cardsSection = new Section(render, cardsContainer);
-
 // ! Получаем сначала данные пользователя, а затем данные карточек
 Promise.all([api.getUser(), api.getInitialCards()])
   .then((result) => {
@@ -233,19 +254,9 @@ Promise.all([api.getUser(), api.getInitialCards()])
     userInfo.id = userData._id;
 
     const initialCardElements = initialCardsData.map((initialCardData) => {
-      const card = new Card(
-        initialCardData,
-        "#element",
-        openedShowImagePopup,
-        popupDeleteCard,
-        userInfo.id,
-        likeAddHandler,
-        likeRemoveHandler,
-        removeCardHandler
-      );
-      return card.generateCard();
+      return createCard(initialCardData, userInfo.id);
     });
 
-    cardsSection.renderItems(initialCardElements);
+    cardsList.renderItems(initialCardElements);
   })
   .catch((err) => console.log(err));
