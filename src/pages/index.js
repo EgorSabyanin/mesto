@@ -11,6 +11,8 @@ import PopupWithImage from "../components/PopupWithImage";
 import PopupConfirm from "../components/PopupDelCard";
 import Api from "../components/Api";
 
+import { renderLoading } from "../utils/utils.js";
+
 // * Импорт констант
 import {
   API_OPTIONS,
@@ -30,6 +32,7 @@ import {
   cardCreatePopupForm,
   avatarChangePopup,
   avatarChangeButton,
+  avatarFormChange,
   cardDeletePopup,
   cardDeletePopupForm,
 } from "../utils/constants";
@@ -93,7 +96,10 @@ const userInfo = new UserInfo({
 const popupShowImage = new PopupWithImage(imageShowPopup);
 popupShowImage.setEventListeners();
 
-const popupEditForm = new PopupWithForm(profileEditPopup, handleEditForm);
+const popupEditForm = new PopupWithForm(
+  profileEditPopup,
+  handleProfileEditForm
+);
 popupEditForm.setEventListeners();
 
 const popupDeleteCard = new PopupConfirm(cardDeletePopup, function (card) {
@@ -107,11 +113,21 @@ const popupDeleteCard = new PopupConfirm(cardDeletePopup, function (card) {
 });
 popupDeleteCard.setEventListeners();
 
-function handleEditForm(data) {
+function handleProfileEditForm(data) {
+  const buttonSubmit = profileEditPopupForm.querySelector(
+    ".popup-form__submit"
+  );
+  const originalText = buttonSubmit.textContent;
+  renderLoading(buttonSubmit, "Сохранение...");
   api
     .editUserProfile({ name: data.name, about: data.description })
     .then((res) => {
       userInfo.setUserInfo({ name: res.name, description: res.about });
+      popupEditForm.close();
+    })
+    .catch((err) => console.log(err))
+    .finally(() => {
+      renderLoading(buttonSubmit, originalText);
     });
 }
 
@@ -122,14 +138,21 @@ const popupCreationCard = new PopupWithForm(
 popupCreationCard.setEventListeners();
 
 function handleCreationForm(object) {
+  const buttonSubmit = cardCreatePopupForm.querySelector(".popup-form__submit");
+  const originalText = buttonSubmit.textContent;
+  renderLoading(buttonSubmit, "Сохранение...");
   api
     .createCard({ name: object.nameOfImage, link: object.linkOfImage })
     .then((res) => {
       const card = createCard(res, userInfo.id);
       popupCreationCard.close();
       cardsList.addItem(card);
+      popupCreationCard.close();
     })
-    .catch((err) => console.log(err));
+    .catch((err) => console.log(err))
+    .finally(() => {
+      renderLoading(buttonSubmit, originalText);
+    });
 }
 
 /**
@@ -147,6 +170,9 @@ avatarChangeButton.addEventListener("click", function () {
 });
 
 function handleChangeAvatarForm(object) {
+  const buttonSubmit = avatarFormChange.querySelector(".popup-form__submit");
+  const originalText = buttonSubmit.textContent;
+  renderLoading(buttonSubmit, "Сохранение...");
   api
     .createAvatar({ avatar: object.linkOfAvatar })
     .then((res) => {
@@ -155,6 +181,9 @@ function handleChangeAvatarForm(object) {
     })
     .catch((err) => {
       console.log(err);
+    })
+    .finally(() => {
+      renderLoading(buttonSubmit, originalText);
     });
 }
 
