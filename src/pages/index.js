@@ -13,27 +13,42 @@ import Api from "../components/Api";
 
 // * Импорт констант
 import {
-  initialCards,
   API_OPTIONS,
-  showImagePopup,
-  editProfilePopup,
+  validationConfig,
+  imageShowPopup,
+  profileEditPopup,
   userNameSelector,
   userDescriptionSelector,
+  userAvatarSelector,
   nameInput,
   descriptionInput,
-  editButton,
+  profileButtonEdit,
   cardsContainer,
-  createCardButton,
-  сreateCardPopup,
-  createCardPopupForm,
-  changeAvatarPopup,
-  changeAvatarButton,
-  changeAvatarPopupFormValidation,
-  deleteCardPopup,
-  deleteCardPopupForm,
-  createCardPopupFormValidation,
-  profileEditFormValidation,
+  cardButtonCreate,
+  cardCreatePopup,
+  cardCreatePopupForm,
+  avatarChangePopup,
+  avatarChangeButton,
+  cardDeletePopup,
+  cardDeletePopupForm,
 } from "../utils/constants";
+
+import FormValidator from "../components/FormValidator.js";
+
+const createCardPopupFormValidation = new FormValidator(
+  validationConfig,
+  createCardPopupForm
+);
+
+const changeAvatarPopupFormValidation = new FormValidator(
+  validationConfig,
+  changeAvatarForm
+);
+
+const profileEditFormValidation = new FormValidator(
+  validationConfig,
+  popupEditProfileForm
+);
 
 const api = new Api(API_OPTIONS);
 
@@ -75,16 +90,17 @@ api.getInitialCards().then((result) => {
 const userInfo = new UserInfo({
   userNameSelector: userNameSelector,
   userDescriptionSelector: userDescriptionSelector,
+  userAvatarSelector: userAvatarSelector,
 });
 
 // * Экземпляры для Popup'ов
-const popupShowImage = new PopupWithImage(showImagePopup);
+const popupShowImage = new PopupWithImage(imageShowPopup);
 popupShowImage.setEventListeners();
 
-const popupEditForm = new PopupWithForm(editProfilePopup, handleEditForm);
+const popupEditForm = new PopupWithForm(profileEditPopup, handleEditForm);
 popupEditForm.setEventListeners();
 
-const popupDeleteCard = new PopupConfirm(deleteCardPopup, function (card) {
+const popupDeleteCard = new PopupConfirm(cardDeletePopup, function (card) {
   api
     .removeCard(card)
     .then(() => {
@@ -101,7 +117,7 @@ function handleEditForm(data) {
 }
 
 const popupCreationCard = new PopupWithForm(
-  сreateCardPopup,
+  cardCreatePopup,
   handleCreationForm
 );
 popupCreationCard.setEventListeners();
@@ -121,12 +137,12 @@ function handleCreationForm(object) {
  */
 
 const popupChangeAvatar = new PopupWithForm(
-  changeAvatarPopup,
+  avatarChangePopup,
   handleChangeAvatarForm
 );
 popupChangeAvatar.setEventListeners();
 
-changeAvatarButton.addEventListener("click", function () {
+avatarChangeButton.addEventListener("click", function () {
   popupChangeAvatar.open();
 });
 
@@ -177,7 +193,7 @@ function createCard(data) {
   return card.generateCard();
 }
 
-editButton.addEventListener("click", function () {
+profileButtonEdit.addEventListener("click", function () {
   nameInput.value = userInfo.getUserInfo().name;
   descriptionInput.value = userInfo.getUserInfo().description;
   popupEditForm.open();
@@ -187,10 +203,10 @@ editButton.addEventListener("click", function () {
 //  * * Реализация создания карточки
 //  */
 
-createCardButton.addEventListener("click", function () {
+cardButtonCreate.addEventListener("click", function () {
   popupCreationCard.open();
   createCardPopupFormValidation.disableButton();
-  createCardPopupForm.reset();
+  cardCreatePopupForm.reset();
 });
 
 /**

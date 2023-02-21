@@ -7,6 +7,13 @@ export default class Api {
     this.addLike = this.addLike.bind(this);
   }
 
+  _getResponseData(res) {
+    if (!res.ok) {
+      return Promise.reject(`Ошибка: ${res.status}`);
+    }
+    return res.json();
+  }
+
   getUser() {
     return fetch(`https://nomoreparties.co/v1/${this._id}/users/me`, {
       headers: {
@@ -74,13 +81,7 @@ export default class Api {
         name: data.name,
         link: data.link,
       }),
-    })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-      })
-      .then((data) => data);
+    }).then(this._getResponseData(res));
   }
 
   addLike(cardID) {
