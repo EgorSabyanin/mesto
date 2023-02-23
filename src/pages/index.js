@@ -103,13 +103,19 @@ const popupEditForm = new PopupWithForm(
 popupEditForm.setEventListeners();
 
 const popupDeleteCard = new PopupConfirm(cardDeletePopup, function (card) {
+  const buttonSubmit = cardDeletePopupForm.querySelector(".popup-form__submit");
+  const originalText = buttonSubmit.textContent;
+  renderLoading(buttonSubmit, "Сохранение...");
   api
-    .removeCard(card)
+    .removeCard(card._cardId)
     .then(() => {
       card.remove();
       popupDeleteCard.close();
     })
-    .catch((err) => console.log(err));
+    .catch((err) => console.log(err))
+    .finally(() => {
+      renderLoading(buttonSubmit, originalText);
+    });
 });
 popupDeleteCard.setEventListeners();
 
@@ -194,8 +200,6 @@ function openedShowImagePopup(title, link) {
 // * Лайк handlers
 
 function likeHandleClick(cardID, cardObject) {
-  console.log(cardObject);
-  console.log(`Есть ли мой лайк → ${cardObject.isLiked() ? "Да" : "Нет"}`);
   if (cardObject.isLiked()) {
     api
       .removeLike(cardID)
@@ -223,8 +227,8 @@ function likeHandleClick(cardID, cardObject) {
 
 // * Удаление карточки handler
 
-function removeCardHandler(cardID) {
-  popupDeleteCard.open(cardID);
+function removeCardHandler(card) {
+  popupDeleteCard.open(card);
 }
 
 // * Создание карточки

@@ -1,7 +1,7 @@
 // * Card создаёт карточку путешествия
 export default class Card {
   // * Params:
-  // ? {title, link} — строковые значения; название карточки и ссылка
+  // ? {owner, name, link, likes, _id} — объект владельца карточки, название, URL ссылка, массив объектов лайкнувших, идентификатор карточки
   // ? templateSelector — строка на селектор шаблон вёртски для карточки
   // ? openPopup — обработчик, который связывает карточку с popup'ом
   constructor(
@@ -54,10 +54,6 @@ export default class Card {
     return cardElement;
   }
 
-  _removeCard() {
-    this._removeCardHandler(this._cardId);
-  }
-
   remove() {
     this._element.remove();
     this._element = null;
@@ -102,9 +98,7 @@ export default class Card {
         return;
       }
       if (event.target.classList.contains("element__remove")) {
-        this._removeCardHandler(this._cardId);
-        // this._deletePopup.open();
-        // this._removeCard();
+        this._removeCardHandler(this);
       }
     });
   }
