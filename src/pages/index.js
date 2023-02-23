@@ -193,28 +193,32 @@ function openedShowImagePopup(title, link) {
 
 // * Лайк handlers
 
-function likeAddHandler(cardID) {
-  const currentLikeCounter = event.target.nextElementSibling;
-  api
-    .addLike(cardID)
-    .then((res) => {
-      currentLikeCounter.textContent = res.likes.length;
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-}
-
-function likeRemoveHandler(cardID) {
-  const currentLikeCounter = event.target.nextElementSibling;
-  api
-    .removeLike(cardID)
-    .then((res) => {
-      currentLikeCounter.textContent = res.likes.length;
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+function likeHandleClick(cardID, cardObject) {
+  console.log(cardObject);
+  console.log(`Есть ли мой лайк → ${cardObject.isLiked() ? "Да" : "Нет"}`);
+  if (cardObject.isLiked()) {
+    api
+      .removeLike(cardID)
+      .then((res) => {
+        cardObject._likes = res.likes;
+        cardObject._updateLikesView();
+      })
+      .catch((err) => {
+        console.log(
+          `Occurred some error with API request "removeLike" — ${err}`
+        );
+      });
+  } else {
+    api
+      .addLike(cardID)
+      .then((res) => {
+        cardObject._likes = res.likes;
+        cardObject._updateLikesView();
+      })
+      .catch((err) => {
+        console.log(`Occurred some error with API request "addLike" — ${err}`);
+      });
+  }
 }
 
 // * Удаление карточки handler
@@ -232,8 +236,7 @@ function createCard(data, userID) {
     openedShowImagePopup,
     popupDeleteCard,
     userID,
-    likeAddHandler,
-    likeRemoveHandler,
+    likeHandleClick,
     removeCardHandler
   );
   return card.generateCard();

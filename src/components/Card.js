@@ -10,8 +10,7 @@ export default class Card {
     openPopup,
     deletePopup,
     userID,
-    likeAddHandler,
-    likeRemoveHandler,
+    likeHandleClick,
     removeCardHandler
   ) {
     this._userID = userID;
@@ -25,10 +24,25 @@ export default class Card {
     this._openPopup = openPopup;
     this._deletePopup = deletePopup;
 
-    this._likeAddHandler = likeAddHandler;
-    this._likeRemoveHandler = likeRemoveHandler;
+    this._likeHandleClick = likeHandleClick;
 
     this._removeCardHandler = removeCardHandler;
+
+    this.isOwner = this._userID === this._owner._id;
+  }
+
+  isLiked() {
+    return this._likes.some((item) => item._id === this._userID);
+  }
+
+  _updateLikesView() {
+    this._element.querySelector(".element__like-counter").textContent =
+      this._likes.length;
+    if (this.isLiked()) {
+      this._likeIcon.classList.add("element__like_active");
+    } else {
+      this._likeIcon.classList.remove("element__like_active");
+    }
   }
 
   _getTemplate() {
@@ -49,16 +63,6 @@ export default class Card {
     this._element = null;
   }
 
-  _like(event) {
-    if (event.target.classList.contains("element__like_active")) {
-      event.target.classList.remove("element__like_active");
-      this._likeRemoveHandler(this._cardId);
-    } else {
-      event.target.classList.add("element__like_active");
-      this._likeAddHandler(this._cardId);
-    }
-  }
-
   generateCard() {
     this._element = this._getTemplate();
 
@@ -75,16 +79,12 @@ export default class Card {
     this._element.querySelector(".element__text").textContent = this._title;
 
     // * Удялаем иконку корзины, если не мы владелец карточки
-    if (this._owner._id !== this._userID) {
+    if (!this.isOwner) {
       this._deleteBtn.remove();
     }
 
     // * Для наших собственных лайков
-    this._likes.filter((userLiked) => {
-      if (userLiked._id === this._userID) {
-        this._likeIcon.classList.add("element__like_active");
-      }
-    });
+    this._updateLikesView();
 
     return this._element;
   }
@@ -94,7 +94,7 @@ export default class Card {
     // ! Используем делегирование на целую карточку
     this._element.addEventListener("click", (event) => {
       if (event.target.classList.contains("element__like")) {
-        this._like(event);
+        this._likeHandleClick(this._cardId, this);
         return;
       }
       if (event.target.classList.contains("element__image")) {
