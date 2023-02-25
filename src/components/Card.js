@@ -35,6 +35,11 @@ export default class Card {
     return this._likes.some((item) => item._id === this._userID);
   }
 
+  setLikes(likes) {
+    this._likes = likes;
+    this._updateLikesView();
+  }
+
   _updateLikesView() {
     this._element.querySelector(".element__like-counter").textContent =
       this._likes.length;

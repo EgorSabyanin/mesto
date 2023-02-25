@@ -58,29 +58,6 @@ const cardsList = new Section(render, cardsContainer);
 
 const api = new Api(API_OPTIONS);
 
-api
-  .getUser()
-  .then((result) => {
-    userInfo.setUserInfo({
-      name: result.name,
-      description: result.about,
-      avatar: result.avatar,
-    });
-
-    const user = userInfo.getUserInfo();
-
-    const profileAvatar = document.querySelector(".profile__image");
-    const profileName = document.querySelector(".profile__name");
-    const profileDescription = document.querySelector(".profile__description");
-
-    profileAvatar.src = user.avatar;
-    profileName.textContent = user.name;
-    profileDescription.textContent = user.description;
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-
 /**
  * * Реализация начальной загрузки карточек
  */
@@ -204,8 +181,7 @@ function likeHandleClick(cardID, cardObject) {
     api
       .removeLike(cardID)
       .then((res) => {
-        cardObject._likes = res.likes;
-        cardObject._updateLikesView();
+        cardObject.setLikes(res.likes);
       })
       .catch((err) => {
         console.log(
@@ -216,8 +192,7 @@ function likeHandleClick(cardID, cardObject) {
     api
       .addLike(cardID)
       .then((res) => {
-        cardObject._likes = res.likes;
-        cardObject._updateLikesView();
+        cardObject.setLikes(res.likes);
       })
       .catch((err) => {
         console.log(`Occurred some error with API request "addLike" — ${err}`);
@@ -277,10 +252,7 @@ function render(renderedElement, container) {
 
 // ! Получаем сначала данные пользователя, а затем данные карточек
 Promise.all([api.getUser(), api.getInitialCards()])
-  .then((result) => {
-    const userData = result[0];
-    const initialCardsData = result[1];
-
+  .then(([userData, initialCardsData]) => {
     userInfo.setUserInfo({
       name: userData.name,
       description: userData.about,
